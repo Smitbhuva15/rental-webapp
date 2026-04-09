@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { CreditCard, CalendarCheck, Home, PlusSquare } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import UserProperties from '@/components/UserProperties';
+import UserBookings from '@/components/UserBookings';
 
 export default function UserDashboard() {
   const [activeTab, setActiveTab] = useState('bookings');
@@ -85,27 +86,7 @@ export default function UserDashboard() {
           {/* Main Content */}
           <div className="flex-1">
             {activeTab === 'bookings' && (
-              <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Active Bookings</h2>
-                
-                {/* Mock Booking logic since we don't have the real bookings API created in this request */}
-                <div className="border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col md:flex-row gap-6 items-center">
-                  <div className="h-24 w-24 bg-slate-100 rounded-xl overflow-hidden flex-shrink-0">
-                    <img src="https://placehold.co/200x200/1e293b/ffffff" alt="Property" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">Luxury Modern Apartment</h3>
-                    <p className="text-slate-500 text-sm">Mumbai, MH</p>
-                    <div className="mt-2 inline-block px-2.5 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-lg uppercase tracking-wider">
-                      Confirmed
-                    </div>
-                  </div>
-                  <div className="text-right w-full md:w-auto">
-                    <p className="text-slate-500 text-sm">Move in Date</p>
-                    <p className="font-bold text-slate-900 dark:text-white">Oct 1, 2026</p>
-                  </div>
-                </div>
-              </div>
+               <UserBookings />
             )}
 
             {activeTab === 'subscription' && (

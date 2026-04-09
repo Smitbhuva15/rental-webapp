@@ -113,7 +113,9 @@ export default function Pricing() {
               <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" /> Browse properties</li>
               <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" /> Filter & Search</li>
               <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" /> Basic email support</li>
-              <li className="flex gap-3 text-slate-400 dark:text-slate-600"><XCircle className="h-6 w-6 flex-shrink-0" /> Only view/book properties</li>
+              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" /> book properties</li>
+
+              <li className="flex gap-3 text-slate-400 dark:text-slate-600"><XCircle className="h-6 w-6 flex-shrink-0" />Add properties</li>
             </ul>
             
             <button  onClick={() => router.push('/browse')}  className="w-full text-center py-4 rounded-xl font-bold border-2 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:border-primary hover:text-primary transition-colors disabled:opacity-50">
