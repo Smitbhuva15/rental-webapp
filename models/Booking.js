@@ -11,6 +11,10 @@ const BookingSchema = new mongoose.Schema({
     ref: 'Property',
     required: true,
   },
+  paymentId: {
+    type: String,
+    required: true,
+  },
   startDate: {
     type: Date,
     required: true,
