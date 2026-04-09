@@ -42,7 +42,7 @@ export async function PUT(req, { params }) {
     // We are expecting JSON here for simple edits (no new images for simplicity)
     const body = await req.json();
     
-    property = await Property.findByIdAndUpdate(id, body, { new: true });
+    property = await Property.findByIdAndUpdate(id, body, { new: true, runValidators: true });
     return NextResponse.json(property, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: 'Server error or unauthorized' }, { status: 500 });

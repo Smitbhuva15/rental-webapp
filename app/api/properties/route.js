@@ -13,8 +13,10 @@ export async function GET(req) {
     const minPrice = searchParams.get('minPrice');
     const maxPrice = searchParams.get('maxPrice');
     const q = searchParams.get('q'); // text search
+    const ownerId = searchParams.get('ownerId');
 
     let query = {};
+    if (ownerId) query.ownerId = ownerId;
     if (category) query.category = category;
     if (minPrice || maxPrice) {
       query.price = {};

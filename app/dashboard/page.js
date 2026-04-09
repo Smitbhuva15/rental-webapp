@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { CreditCard, CalendarCheck, Home } from 'lucide-react';
+import { CreditCard, CalendarCheck, Home, PlusSquare } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import UserProperties from '@/components/UserProperties';
 
 export default function UserDashboard() {
   const [activeTab, setActiveTab] = useState('bookings');
@@ -38,7 +39,7 @@ export default function UserDashboard() {
 
   if (!user) return null; // Will redirect in useEffect
 
-  const isPremium = user?.subscription?.plan && user.subscription.plan !== 'free';
+  const isPremiumOrAdmin = user.role === 'Admin' || (user?.subscription?.plan && user.subscription.plan !== 'free' && user.subscription.status === 'active');
 
   return (
     <div className="bg-slate-50 dark:bg-slate-950 min-h-screen py-12">
@@ -69,6 +70,14 @@ export default function UserDashboard() {
                 >
                   <CreditCard className="h-5 w-5" /> Subscription
                 </button>
+                {isPremiumOrAdmin && (
+                  <button 
+                    onClick={() => setActiveTab('properties')}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${activeTab === 'properties' ? 'bg-primary text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
+                  >
+                    <PlusSquare className="h-5 w-5" /> My Properties
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -103,7 +112,7 @@ export default function UserDashboard() {
               <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
                 <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Subscription Plan</h2>
                 
-                {isPremium ? (
+                {user?.subscription?.plan && user.subscription.plan !== 'free' ? (
                   <div className="bg-gradient-to-br from-slate-900 to-primary p-6 rounded-2xl text-white">
                     <div className="flex justify-between items-start mb-8">
                       <div>
@@ -136,6 +145,10 @@ export default function UserDashboard() {
                   </div>
                 )}
               </div>
+            )}
+
+            {activeTab === 'properties' && isPremiumOrAdmin && (
+              <UserProperties user={user} />
             )}
           </div>
         </div>

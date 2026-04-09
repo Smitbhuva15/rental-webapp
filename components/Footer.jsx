@@ -34,18 +34,18 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-white mb-4 tracking-wide uppercase text-sm">Company</h3>
             <ul className="space-y-3">
-              <li><Link href="/about" className="hover:text-primary transition-colors text-sm">About Us</Link></li>
+              <li><Link href="/" className="hover:text-primary transition-colors text-sm">About Us</Link></li>
               <li><Link href="/pricing" className="hover:text-primary transition-colors text-sm">Pricing</Link></li>
-              <li><Link href="/contact" className="hover:text-primary transition-colors text-sm">Contact</Link></li>
+              <li><Link href="/" className="hover:text-primary transition-colors text-sm">Contact</Link></li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-semibold text-white mb-4 tracking-wide uppercase text-sm">Resources</h3>
             <ul className="space-y-3">
-              <li><Link href="/faq" className="hover:text-primary transition-colors text-sm">Help & FAQ</Link></li>
-              <li><Link href="/terms" className="hover:text-primary transition-colors text-sm">Terms of Service</Link></li>
-              <li><Link href="/privacy" className="hover:text-primary transition-colors text-sm">Privacy Policy</Link></li>
+              <li><Link href="/" className="hover:text-primary transition-colors text-sm">Help & FAQ</Link></li>
+              <li><Link href="/" className="hover:text-primary transition-colors text-sm">Terms of Service</Link></li>
+              <li><Link href="/" className="hover:text-primary transition-colors text-sm">Privacy Policy</Link></li>
             </ul>
           </div>
         </div>
