@@ -8,14 +8,24 @@ export async function POST(req) {
   try {
     const user = await requireAuth();
     await dbConnect();
-    
-    // Create an order instead of a subscription for simplicity and standard payments. 
-    // Subscriptions via Razorpay require predefined plans on the Razorpay dashboard.
-    // For this context, let's assume we are buying a month of 'premium' access via orders.
+    const body = await req.json();
+    const { planName } = body || {};
+
+    let amount = 499; // Default to premium
+    let finalPlan = 'premium';
+
+    if (planName === 'basic') {
+      amount = 499;
+      finalPlan = 'basic';
+    } else if (planName === 'premium') {
+      amount = 499;
+      finalPlan = 'premium';
+    }
+
     const options = {
-      amount: 499 * 100, // 499 INR
+      amount: amount * 100, // Amount in paise
       currency: "INR",
-      receipt: `receipt_${user.id}_${Date.now()}`
+      receipt: `${user.id}_${Date.now()}`
     };
 
     const order = await razorpay.orders.create(options);
@@ -23,13 +33,17 @@ export async function POST(req) {
     const sub = await Subscription.create({
       userId: user.id,
       razorpayOrderId: order.id,
-      plan: 'premium',
+      plan: finalPlan,
       status: 'created'
     });
 
-    return NextResponse.json({ order, subscriptionId: sub._id }, { status: 200 });
+    return NextResponse.json({ order, subscriptionId: sub._id, plan: finalPlan }, { status: 200 });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: 'Server error or unauthorized' }, { status: 500 });
+    console.error("Razorpay API Error:", error);
+    
+    // Extract actual error message from Razorpay API error object
+    const errorMessage = error?.error?.description || error?.message || 'Server error or payment gateway configuration issue';
+    
+    return NextResponse.json({ message: errorMessage }, { status: 500 });
   }
 }

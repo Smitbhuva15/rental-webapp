@@ -99,7 +99,7 @@ export default function Navbar() {
             {user ? (
               <>
                 <Link href={user.role === 'Admin' ? '/admin' : '/dashboard'} className="w-full text-center block px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-200 hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md">
-                  {user.role} Panel
+                  {user.role === 'Admin' ? 'Admin Panel' : 'Dashboard'}
                 </Link>
                 <button onClick={handleLogout} className="text-red-500 w-[90%] px-5 py-3 rounded-full font-medium border border-red-200 bg-red-50">Logout</button>
               </>

@@ -35,6 +35,9 @@ const UserSchema = new mongoose.Schema({
       type: String,
       default: 'free'
     },
+    startDate: {
+      type: Date
+    },
     expiryDate: {
       type: Date
     }

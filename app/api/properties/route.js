@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Property from '@/models/Property';
-import { requireAdmin, getUserFromCookies } from '@/lib/auth';
+import User from '@/models/User';
+import { requireAuth } from '@/lib/auth';
 import cloudinary from '@/lib/cloudinary';
 
 export async function GET(req) {
@@ -38,8 +39,13 @@ export async function GET(req) {
 
 export async function POST(req) {
   try {
-    const user = await requireAdmin();
+    const sessionUser = await requireAuth();
     await dbConnect();
+    const user = await User.findById(sessionUser.id);
+
+    if (user.role !== 'Admin' && user.subscription?.status !== 'active') {
+      return NextResponse.json({ message: 'Forbidden: Active subscription required' }, { status: 403 });
+    }
 
     const formData = await req.formData();
     const title = formData.get('title');

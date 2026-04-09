@@ -26,8 +26,9 @@ export async function POST(req) {
       sub.razorpayPaymentId = razorpay_payment_id;
       sub.status = 'active';
       
+      const now = new Date();
       const expiry = new Date();
-      expiry.setMonth(expiry.getMonth() + 1); // 1 month premium
+      expiry.setDate(expiry.getDate() + 30); // Set expiry to 30 days as requested
       sub.expiryDate = expiry;
       await sub.save();
 
@@ -35,7 +36,8 @@ export async function POST(req) {
       const userData = await User.findById(user.id);
       userData.subscription = {
         status: 'active',
-        plan: 'premium',
+        plan: sub.plan,
+        startDate: now,
         expiryDate: expiry
       };
       await userData.save();
