@@ -41,7 +41,11 @@ const UserSchema = new mongoose.Schema({
     expiryDate: {
       type: Date
     }
-  }
+  },
+  savedProperties: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Property'
+  }]
 }, { timestamps: true });
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);

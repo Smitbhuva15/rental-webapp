@@ -16,7 +16,7 @@ export async function GET() {
       return NextResponse.json({ user: null }, { status: 401 });
     }
 
-    return NextResponse.json({ user }, { status: 200 });
+    return NextResponse.json({ user: { id: user._id, name: user.name, role: user.role, savedProperties: user.savedProperties || [] } }, { status: 200 });
   } catch (error) {
     console.error('Error fetching current user:', error);
     return NextResponse.json({ message: 'Server error' }, { status: 500 });
