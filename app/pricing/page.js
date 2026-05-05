@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
 import { useStore } from '@/lib/store';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 export default function Pricing() {
   const router = useRouter();
@@ -217,7 +217,7 @@ export default function Pricing() {
               <li className="flex gap-3"><CheckCircle2 className="h-6 w-6 text-blue-200 flex-shrink-0" /> Priority 24/7 support</li>
             </ul>
             
-            <button onClick={() => handlePayment('premium')} disabled={loading} className="w-full text-center py-4 rounded-xl font-bold bg-white text-blue-600 hover:bg-slate-50 transition-transform active:scale-95 shadow-xl disabled:opacity-80">
+            <button onClick={() => handlePayment(isYearly ? 'premium_yearly' : 'premium_monthly')} disabled={loading} className="w-full text-center py-4 rounded-xl font-bold bg-white text-blue-600 hover:bg-slate-50 transition-transform active:scale-95 shadow-xl disabled:opacity-80">
               {loading ? 'Processing...' : 'Upgrade to Premium'}
             </button>
           </motion.div>

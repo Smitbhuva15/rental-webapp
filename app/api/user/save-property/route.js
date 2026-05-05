@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { verifyAuth } from '@/lib/auth';
+import {requireAuth } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 
 export async function POST(req) {
   try {
-    const authResult = await verifyAuth(req);
+    const authResult = await requireAuth(req);
     if (!authResult.isAuthenticated) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }

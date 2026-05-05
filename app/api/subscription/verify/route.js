@@ -28,7 +28,11 @@ export async function POST(req) {
       
       const now = new Date();
       const expiry = new Date();
-      expiry.setDate(expiry.getDate() + 30); // Set expiry to 30 days as requested
+      if (sub.planType === 'yearly') {
+        expiry.setFullYear(expiry.getFullYear() + 1);
+      } else {
+        expiry.setDate(expiry.getDate() + 30);
+      }
       sub.expiryDate = expiry;
       await sub.save();
 
@@ -37,6 +41,7 @@ export async function POST(req) {
       userData.subscription = {
         status: 'active',
         plan: sub.plan,
+        planType: sub.planType,
         startDate: now,
         expiryDate: expiry
       };

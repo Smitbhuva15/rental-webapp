@@ -11,15 +11,18 @@ export async function POST(req) {
     const body = await req.json();
     const { planName } = body || {};
 
-    let amount = 499; // Default to premium
+    let amount = 499; // Default to premium_monthly
     let finalPlan = 'premium';
+    let finalPlanType = 'monthly';
 
-    if (planName === 'basic') {
-      amount = 499;
-      finalPlan = 'basic';
-    } else if (planName === 'premium') {
+    if (planName === 'premium_monthly') {
       amount = 499;
       finalPlan = 'premium';
+      finalPlanType = 'monthly';
+    } else if (planName === 'premium_yearly') {
+      amount = 4790;
+      finalPlan = 'premium';
+      finalPlanType = 'yearly';
     }
 
     const options = {
@@ -34,6 +37,7 @@ export async function POST(req) {
       userId: user.id,
       razorpayOrderId: order.id,
       plan: finalPlan,
+      planType: finalPlanType,
       status: 'created'
     });
 

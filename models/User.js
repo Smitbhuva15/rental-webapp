@@ -35,6 +35,11 @@ const UserSchema = new mongoose.Schema({
       type: String,
       default: 'free'
     },
+    planType: {
+      type: String,
+      enum: ['monthly', 'yearly', 'none'],
+      default: 'none'
+    },
     startDate: {
       type: Date
     },

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Menu, X, Home, Compass, UserCircle, LogOut, LayoutDashboard, Moon, Sun, Heart } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useStore } from '@/lib/store';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -91,6 +91,9 @@ export default function Navbar() {
                     </span>
                   )}
                 </Link>
+                <Link href="/add-property" className="hidden lg:flex items-center gap-2 text-slate-800 dark:text-white font-medium hover:text-blue-600 transition-colors bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full shadow-sm hover:shadow-md">
+                  List Property
+                </Link>
                 <Link href={user.role === 'Admin' ? '/admin' : '/dashboard'} className="flex items-center gap-2 text-slate-800 dark:text-white font-medium hover:text-blue-600 transition-colors">
                   <LayoutDashboard className="h-5 w-5" /> {user.role === 'Admin' ? 'Admin' : 'Dashboard'}
                 </Link>
@@ -98,6 +101,11 @@ export default function Navbar() {
                   <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-blue-100 to-indigo-100 dark:from-blue-900/50 dark:to-indigo-900/50 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-lg shadow-sm">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
+                  {user.subscription?.status === 'active' ? (
+                    <div className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${new Date(user.subscription.expiryDate) > new Date() ? 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400'}`}>
+                      {new Date(user.subscription.expiryDate) > new Date() ? `${Math.ceil(Math.abs(new Date(user.subscription.expiryDate) - new Date()) / (1000 * 60 * 60 * 24))} days left` : 'Expired'}
+                    </div>
+                  ) : null}
                   <button onClick={handleLogout} className="text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 p-2 rounded-full transition-colors" title="Logout">
                     <LogOut className="h-5 w-5" />
                   </button>

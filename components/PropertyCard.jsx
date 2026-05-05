@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { MapPin, Bed, Bath, Square, Heart, Loader2 } from 'lucide-react';
 import { useStore } from '@/lib/store';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 export default function PropertyCard({ property }) {
   const router = useRouter();

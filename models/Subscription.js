@@ -20,6 +20,11 @@ const SubscriptionSchema = new mongoose.Schema({
     enum: ['free', 'premium'],
     default: 'premium',
   },
+  planType: {
+    type: String,
+    enum: ['monthly', 'yearly'],
+    default: 'monthly',
+  },
   status: {
     type: String,
     enum: ['created', 'active', 'completed', 'canceled', 'failed'],
