@@ -73,12 +73,20 @@ export default function UserDashboard() {
                   <CreditCard className="h-5 w-5" /> Subscription
                 </button>
                 {isPremiumOrAdmin && (
-                  <button 
-                    onClick={() => setActiveTab('properties')}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${activeTab === 'properties' ? 'bg-primary text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
-                  >
-                    <PlusSquare className="h-5 w-5" /> My Properties
-                  </button>
+                  <>
+                    <button 
+                      onClick={() => setActiveTab('properties')}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${activeTab === 'properties' ? 'bg-primary text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
+                    >
+                      <Home className="h-5 w-5" /> My Properties
+                    </button>
+                    <button 
+                      onClick={() => router.push('/add-property')}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    >
+                      <PlusSquare className="h-5 w-5" /> List Property
+                    </button>
+                  </>
                 )}
               </div>
             </div>

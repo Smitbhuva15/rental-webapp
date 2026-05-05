@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from 'react';
+import { use, useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -55,7 +55,9 @@ const amenitiesCategories = [
   }
 ];
 
-export default function AddProperty() {
+export default function EditProperty({ params }) {
+  const unwrappedParams = use(params);
+  const id = unwrappedParams.id;
   const router = useRouter();
   const { user } = useStore();
   const [loading, setLoading] = useState(false);
@@ -80,7 +82,7 @@ export default function AddProperty() {
   const [previews, setPreviews] = useState([]); // Data URLs
 
   useEffect(() => {
-    async function checkAuth() {
+    async function init() {
       if (!user) {
         try {
           const res = await fetch('/api/auth/me');
@@ -95,14 +97,49 @@ export default function AddProperty() {
       
       const currentUser = useStore.getState().user;
       if (!currentUser || !isSubscriptionActive(currentUser)) {
-        toast.error("You need an active subscription to add properties.");
+        toast.error("You need an active subscription to edit properties.");
         router.push('/pricing');
         return;
       }
+      
+      try {
+        const res = await fetch(`/api/properties/${id}`);
+        if (!res.ok) throw new Error("Failed to fetch property details");
+        const property = await res.json();
+        
+        setFormData({
+          title: property.title || '',
+          category: property.category || '',
+          description: property.description || '',
+          price: property.price?.toString() || '',
+          city: property.location?.city || '',
+          state: property.location?.state || '',
+          address: property.location?.address || '',
+          bedrooms: property.bedrooms?.toString() || '',
+          bathrooms: property.bathrooms?.toString() || '',
+          area: property.area?.toString() || '',
+          amenities: property.amenities || []
+        });
+
+        // Store old images differently or let user upload fresh ones
+        // For simplicity, we will require the user to upload new images if they want to change them.
+        // Or we can pre-populate previews and skip validation if previews exist.
+        if (property.images) {
+           setPreviews(property.images.map(img => img.url));
+           // We set a placeholder in images array so length check passes
+           // Since we will use PUT endpoint logic
+           setImages(property.images.map(img => "existing")); 
+        }
+
+      } catch (error) {
+        toast.error("Property not found");
+        router.push('/dashboard');
+      }
+
       setAuthChecking(false);
     }
-    checkAuth();
-  }, [user, router]);
+    init();
+  }, [user, router, id]);
 
   const handleDragOver = useCallback((e) => {
     e.preventDefault();
@@ -204,24 +241,31 @@ export default function AddProperty() {
         data.append('amenities', amenity);
       });
 
+      // If user uploaded new files, images array will contain File objects
+      // If they kept old, it contains "existing" string
+      let hasNewFiles = false;
       images.forEach(image => {
-        data.append('images', image);
+        if (image !== "existing") {
+          data.append('images', image);
+          hasNewFiles = true;
+        }
       });
+      data.append('hasNewFiles', hasNewFiles ? 'true' : 'false');
 
-      const res = await fetch('/api/properties', {
-        method: 'POST',
+      const res = await fetch(`/api/properties/${id}`, {
+        method: 'PUT',
         body: data
       });
 
       if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.message || 'Failed to list property');
+        throw new Error(errorData.message || 'Failed to update property');
       }
 
-      toast.success("Property listed successfully!");
+      toast.success("Property updated successfully!");
       router.push('/dashboard');
     } catch (err) {
-      toast.error(err.message || "Failed to list property");
+      toast.error(err.message || "Failed to update property");
     } finally {
       setLoading(false);
     }

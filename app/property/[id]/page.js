@@ -3,6 +3,8 @@
 import { use, useState, useEffect } from 'react';
 import { MapPin, Bed, Bath, Square, Calendar, User, ShieldCheck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+
 
 export default function PropertyDetails({ params }) {
   const unwrappedParams = use(params);
@@ -162,18 +164,41 @@ export default function PropertyDetails({ params }) {
               </div>
               <h1 className="text-4xl font-extrabold text-slate-900 dark:text-white mb-2">{property.title}</h1>
             </div>
+
             <div className="text-right hidden md:block">
               <p className="text-sm text-slate-500 mb-1">Monthly Rent</p>
               <p className="text-3xl font-black text-slate-900 dark:text-white">₹{property.price?.toLocaleString() || property.price}</p>
             </div>
           </div>
           
-          <div className="w-full rounded-3xl overflow-hidden aspect-[2/1] md:h-[500px]">
-             <img 
-               src={property.images && property.images.length > 0 ? property.images[0].url : 'https://placehold.co/1200x600/1e293b/ffffff?text=No+Image'} 
-               alt="Main" 
-               className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
-             />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+             <div className="md:col-span-3 rounded-3xl overflow-hidden aspect-[2/1] md:h-[500px] relative">
+               <Image 
+                 src={property.images && property.images.length > 0 ? property.images[0].url : 'https://placehold.co/1200x600/1e293b/ffffff?text=No+Image'} 
+                 alt="Main" 
+                 fill
+                 sizes="(max-width: 768px) 100vw, 75vw"
+                 className="object-cover hover:scale-105 transition-transform duration-700" 
+               />
+             </div>
+             <div className="hidden md:flex flex-col gap-4">
+               {property.images && property.images.slice(1, 4).map((img, idx) => (
+                 <div key={idx} className="relative flex-1 rounded-3xl overflow-hidden aspect-[4/3] bg-slate-100 dark:bg-slate-800">
+                   <Image 
+                     src={img.url} 
+                     alt={`Gallery ${idx + 1}`} 
+                     fill
+                     sizes="25vw"
+                     className="object-cover hover:scale-105 transition-transform duration-700" 
+                   />
+                 </div>
+               ))}
+               {(!property.images || property.images.length < 4) && [...Array(Math.max(0, 3 - (property.images?.length ? property.images.length - 1 : 0)))].map((_, idx) => (
+                 <div key={`skel-${idx}`} className="relative flex-1 rounded-3xl overflow-hidden aspect-[4/3] bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                   <Image src={`https://placehold.co/400x300/1e293b/ffffff?text=Image+${idx + 2}`} fill alt="Placeholder" className="object-cover" />
+                 </div>
+               ))}
+             </div>
           </div>
         </div>
 
@@ -181,17 +206,17 @@ export default function PropertyDetails({ params }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           
           <div className="lg:col-span-2 space-y-10">
-            {/* Quick Stats - Using placeholders for demo as these aren't currently in data model */}
+            {/* Quick Stats */}
             <div className="flex gap-8 py-6 border-y border-slate-200 dark:border-slate-800">
-              <div className="flex gap-3 items-center"><Bed className="h-6 w-6 text-slate-400"/> <div><p className="text-xl font-bold text-slate-900 dark:text-white">3</p><p className="text-sm text-slate-500">Bedrooms</p></div></div>
-              <div className="flex gap-3 items-center"><Bath className="h-6 w-6 text-slate-400"/> <div><p className="text-xl font-bold text-slate-900 dark:text-white">2</p><p className="text-sm text-slate-500">Bathrooms</p></div></div>
-              <div className="flex gap-3 items-center"><Square className="h-6 w-6 text-slate-400"/> <div><p className="text-xl font-bold text-slate-900 dark:text-white">1,450</p><p className="text-sm text-slate-500">Square Ft</p></div></div>
+              <div className="flex gap-3 items-center"><Bed className="h-6 w-6 text-slate-400"/> <div><p className="text-xl font-bold text-slate-900 dark:text-white">{property.bedrooms || 1}</p><p className="text-sm text-slate-500">Bedrooms</p></div></div>
+              <div className="flex gap-3 items-center"><Bath className="h-6 w-6 text-slate-400"/> <div><p className="text-xl font-bold text-slate-900 dark:text-white">{property.bathrooms || 1}</p><p className="text-sm text-slate-500">Bathrooms</p></div></div>
+              <div className="flex gap-3 items-center"><Square className="h-6 w-6 text-slate-400"/> <div><p className="text-xl font-bold text-slate-900 dark:text-white">{property.area || 0}</p><p className="text-sm text-slate-500">Square Ft</p></div></div>
             </div>
 
             {/* Description */}
             <div>
                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">About the Property</h2>
-               <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">{property.description}</p>
+               <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg whitespace-pre-line">{property.description}</p>
             </div>
 
             {/* Amenities */}

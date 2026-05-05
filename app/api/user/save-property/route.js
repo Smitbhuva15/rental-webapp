@@ -22,25 +22,28 @@ export async function POST(req) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
-    const propertyIdStr = propertyId.toString();
-    const isSaved = user.savedProperties.some(id => id.toString() === propertyIdStr);
+    const isSaved = user.savedProperties.some(id => id.toString() === propertyId.toString());
     
+    let updatedUser;
     if (isSaved) {
-      // Remove from saved
-      user.savedProperties = user.savedProperties.filter(id => id.toString() !== propertyIdStr);
+      updatedUser = await User.findByIdAndUpdate(
+        authResult.user.id,
+        { $pull: { savedProperties: propertyId } },
+        { new: true }
+      );
     } else {
-      // Add to saved
-      user.savedProperties.push(propertyIdStr);
+      updatedUser = await User.findByIdAndUpdate(
+        authResult.user.id,
+        { $addToSet: { savedProperties: propertyId } },
+        { new: true }
+      );
     }
-
-    await user.save();
 
     return NextResponse.json({ 
       success: true, 
       isSaved: !isSaved,
-      savedProperties: user.savedProperties.map(id => id.toString())
+      savedProperties: updatedUser.savedProperties.map(id => id.toString())
     }, { status: 200 });
-    
   } catch (error) {
     console.error('Save property error:', error);
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });

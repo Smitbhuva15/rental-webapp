@@ -57,6 +57,10 @@ export async function POST(req) {
     const address = formData.get('location.address');
     const city = formData.get('location.city');
     const state = formData.get('location.state');
+    const bedrooms = formData.get('bedrooms');
+    const bathrooms = formData.get('bathrooms');
+    const area = formData.get('area');
+    const amenities = formData.getAll('amenities');
 
     // Handle files
     const imageFiles = formData.getAll('images');
@@ -82,6 +86,10 @@ export async function POST(req) {
       price: Number(price),
       category,
       location: { address, city, state },
+      bedrooms: Number(bedrooms),
+      bathrooms: Number(bathrooms),
+      area: Number(area),
+      amenities,
       ownerId: user.id,
       images: uploadedImages,
     });

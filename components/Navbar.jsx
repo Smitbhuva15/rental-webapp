@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Home, Compass, UserCircle, LogOut, LayoutDashboard, Moon, Sun, Heart } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useStore } from '@/lib/store';
@@ -83,9 +84,6 @@ export default function Navbar() {
                     </span>
                   )}
                 </Link>
-                <Link href="/add-property" className="hidden lg:flex items-center gap-2 text-slate-800 dark:text-white font-medium hover:text-blue-600 transition-colors bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full shadow-sm hover:shadow-md">
-                  List Property
-                </Link>
                 <Link href={user.role === 'Admin' ? '/admin' : '/dashboard'} className="flex items-center gap-2 text-slate-800 dark:text-white font-medium hover:text-blue-600 transition-colors">
                   <LayoutDashboard className="h-5 w-5" /> {user.role === 'Admin' ? 'Admin' : 'Dashboard'}
                 </Link>
@@ -116,39 +114,77 @@ export default function Navbar() {
             
           </div>
           <div className="md:hidden flex items-center gap-4">
-            
-            <button onClick={() => setIsOpen(!isOpen)} className="text-slate-600 dark:text-slate-300 hover:text-blue-600 focus:outline-none">
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mounted && (
+              <button onClick={toggleTheme} className="text-slate-600 dark:text-slate-300">
+                {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </button>
+            )}
+            <button onClick={() => setIsOpen(true)} className="text-slate-600 dark:text-slate-300 hover:text-blue-600 focus:outline-none">
+              <Menu className="h-6 w-6" />
             </button>
           </div>
         </div>
       </div>
 
-      {isOpen && (
-        <div className="md:hidden glass animate-in slide-in-from-top-2 absolute w-full left-0 bg-white/95 dark:bg-slate-950/95 border-b border-slate-200 dark:border-slate-800 shadow-2xl">
-          <div className="px-4 pt-4 pb-8 flex flex-col gap-3 items-center">
-            <Link onClick={() => setIsOpen(false)} href="/browse" className="w-full text-center block px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors">Browse</Link>
-            <Link onClick={() => setIsOpen(false)} href="/pricing" className="w-full text-center block px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors">Pricing</Link>
-            
-            {user ? (
-              <>
-                <Link onClick={() => setIsOpen(false)} href="/saved" className="w-full text-center block px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-red-500 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors">
-                  Saved Properties
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 md:hidden"
+            />
+            <motion.div 
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+              className="fixed top-0 right-0 w-[80%] max-w-sm h-screen bg-white dark:bg-slate-950 shadow-2xl z-50 md:hidden flex flex-col"
+            >
+              <div className="p-4 flex justify-end border-b border-slate-100 dark:border-slate-800">
+                <button onClick={() => setIsOpen(false)} className="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+              
+              <div className="p-6 flex-1 overflow-y-auto flex flex-col gap-2">
+                <Link onClick={() => setIsOpen(false)} href="/browse" className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors">
+                  <Compass className="h-5 w-5" /> Browse
                 </Link>
-                <Link onClick={() => setIsOpen(false)} href={user.role === 'Admin' ? '/admin' : '/dashboard'} className="w-full text-center block px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors">
-                  {user.role === 'Admin' ? 'Admin Panel' : 'Dashboard'}
+                <Link onClick={() => setIsOpen(false)} href="/pricing" className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors">
+                  <Home className="h-5 w-5" /> Pricing
                 </Link>
-                <button onClick={() => { handleLogout(); setIsOpen(false); }} className="text-red-600 w-[90%] px-5 py-3 rounded-xl font-bold border border-red-200 bg-red-50 dark:bg-red-500/10 dark:border-red-500/20 mt-2">Logout</button>
-              </>
-            ) : (
-              <>
-                <Link onClick={() => setIsOpen(false)} href="/login" className="w-full text-center block px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors mt-2">Login</Link>
-                <Link onClick={() => setIsOpen(false)} href="/signup" className="bg-slate-900 dark:bg-white dark:text-slate-900 text-white text-center w-[90%] px-5 py-3.5 rounded-xl font-bold mt-2 shadow-lg">Sign Up</Link>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+                
+                {user ? (
+                  <>
+                    <div className="my-4 border-t border-slate-100 dark:border-slate-800"></div>
+                    <Link onClick={() => setIsOpen(false)} href="/saved" className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-red-500 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors">
+                      <Heart className="h-5 w-5" /> Saved Properties
+                    </Link>
+                    <Link onClick={() => setIsOpen(false)} href={user.role === 'Admin' ? '/admin' : '/dashboard'} className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors">
+                      <LayoutDashboard className="h-5 w-5" /> {user.role === 'Admin' ? 'Admin Panel' : 'Dashboard'}
+                    </Link>
+                    <button onClick={() => { handleLogout(); setIsOpen(false); }} className="flex items-center gap-3 mt-auto text-red-600 px-4 py-4 rounded-xl font-bold bg-red-50 dark:bg-red-500/10">
+                      <LogOut className="h-5 w-5" /> Logout
+                    </button>
+                  </>
+                ) : (
+                  <div className="mt-auto flex flex-col gap-3">
+                    <Link onClick={() => setIsOpen(false)} href="/login" className="flex justify-center items-center gap-2 text-slate-800 dark:text-white font-bold bg-slate-100 dark:bg-slate-800 px-4 py-3.5 rounded-xl">
+                      <UserCircle className="h-5 w-5" /> Login
+                    </Link>
+                    <Link onClick={() => setIsOpen(false)} href="/signup" className="bg-blue-600 text-white flex justify-center text-center px-4 py-3.5 rounded-xl font-bold shadow-lg shadow-blue-500/30">
+                      Sign Up
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

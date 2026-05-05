@@ -8,9 +8,11 @@ import { MapPin, Bed, Bath, Square, Heart, Loader2 } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { toast } from 'sonner';
 
+import Image from 'next/image';
+
 export default function PropertyCard({ property }) {
   const router = useRouter();
-  const { user, savedProperties, toggleSaveProperty } = useStore();
+  const { user, savedProperties, toggleSaveProperty, setSavedProperties } = useStore();
   const [isSaving, setIsSaving] = useState(false);
 
   // If property is undefined for showcase purposes, mock it
@@ -54,6 +56,7 @@ export default function PropertyCard({ property }) {
         toast.error("Failed to save property");
       } else {
         const result = await res.json();
+        setSavedProperties(result.savedProperties);
         toast.success(result.isSaved ? "Saved to wishlist" : "Removed from wishlist");
       }
     } catch (err) {
@@ -76,13 +79,15 @@ export default function PropertyCard({ property }) {
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-800">
         <Link href={`/property/${propertyId}`}>
-          <img 
+          <Image 
             src={imageUrl} 
             alt={data.title} 
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
         </Link>
-        <div className="absolute top-4 left-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-slate-800 dark:text-slate-200 shadow-sm">
+        <div className="absolute top-4 left-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-slate-800 dark:text-slate-200 shadow-sm z-10">
           {data.category}
         </div>
         <button 

@@ -20,7 +20,12 @@ export async function GET(req, { params }) {
 
 export async function PUT(req, { params }) {
   try {
-    const sessionUser = await requireAuth();
+    const authResult = await requireAuth(req);
+    if (!authResult.isAuthenticated) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+    const sessionUser = authResult.user;
+
     await dbConnect();
     const { id } = await params;
     
@@ -39,19 +44,77 @@ export async function PUT(req, { params }) {
       }
     }
     
-    // We are expecting JSON here for simple edits (no new images for simplicity)
-    const body = await req.json();
+    const formData = await req.formData();
+    const title = formData.get('title');
+    const description = formData.get('description');
+    const price = formData.get('price');
+    const category = formData.get('category');
+    const address = formData.get('location.address');
+    const city = formData.get('location.city');
+    const state = formData.get('location.state');
+    const bedrooms = formData.get('bedrooms');
+    const bathrooms = formData.get('bathrooms');
+    const area = formData.get('area');
+    const amenities = formData.getAll('amenities');
+    const hasNewFiles = formData.get('hasNewFiles') === 'true';
+
+    let images = property.images;
+
+    if (hasNewFiles) {
+      const { v2: cloudinary } = await import('cloudinary');
+      cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+      });
+
+      const imageFiles = formData.getAll('images');
+      const uploadPromises = imageFiles.map(async (file) => {
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = new Uint8Array(arrayBuffer);
+        return new Promise((resolve, reject) => {
+          cloudinary.uploader.upload_stream(
+            { folder: 'rental_properties' },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve({ url: result.secure_url, public_id: result.public_id });
+            }
+          ).end(buffer);
+        });
+      });
+
+      images = await Promise.all(uploadPromises);
+    }
+
+    const updateData = {
+      title,
+      description,
+      price: Number(price),
+      category,
+      location: { address, city, state },
+      bedrooms: Number(bedrooms),
+      bathrooms: Number(bathrooms),
+      area: Number(area),
+      amenities,
+      images
+    };
     
-    property = await Property.findByIdAndUpdate(id, body, { new: true, runValidators: true });
+    property = await Property.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
     return NextResponse.json(property, { status: 200 });
   } catch (error) {
+    console.error('Update property error:', error);
     return NextResponse.json({ message: 'Server error or unauthorized' }, { status: 500 });
   }
 }
 
 export async function DELETE(req, { params }) {
   try {
-    const sessionUser = await requireAuth();
+    const authResult = await requireAuth(req);
+    if (!authResult.isAuthenticated) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+    const sessionUser = authResult.user;
+
     await dbConnect();
     const { id } = await params;
     

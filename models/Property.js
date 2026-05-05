@@ -37,6 +37,21 @@ const PropertySchema = new mongoose.Schema({
   amenities: [{
     type: String
   }],
+  bedrooms: {
+    type: Number,
+    required: true,
+    default: 1
+  },
+  bathrooms: {
+    type: Number,
+    required: true,
+    default: 1
+  },
+  area: {
+    type: Number,
+    required: true,
+    default: 0
+  },
   isAvailable: {
     type: Boolean,
     default: true,

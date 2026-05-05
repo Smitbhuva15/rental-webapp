@@ -4,6 +4,7 @@ import { Plus, Edit2, Trash2, Home, MapPin, X, Lock } from 'lucide-react';
 import { isSubscriptionActive } from '@/lib/subscription';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function UserProperties({ user }) {
   const [properties, setProperties] = useState([]);
@@ -144,18 +145,27 @@ export default function UserProperties({ user }) {
     }
   };
 
+  const [deleteModalId, setDeleteModalId] = useState(null);
+
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this property?')) return;
+    setDeleteModalId(id);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteModalId) return;
     try {
-       const res = await fetch(`/api/properties/${id}`, { method: 'DELETE' });
+       const res = await fetch(`/api/properties/${deleteModalId}`, { method: 'DELETE' });
        if (res.ok) {
          fetchProperties();
+         toast.success("Property deleted successfully");
        } else {
-         alert('Failed to delete property');
+         toast.error("Failed to delete property");
        }
     } catch (err) {
       console.error(err);
-      alert('An error occurred');
+      toast.error("An error occurred");
+    } finally {
+      setDeleteModalId(null);
     }
   };
 
@@ -289,7 +299,7 @@ export default function UserProperties({ user }) {
                       toast.error("Your subscription has expired. Please renew to edit properties.");
                       return;
                     }
-                    openEditForm(property);
+                    router.push(`/dashboard/edit-property/${property._id}`);
                   }}
                   className={`p-2 rounded-lg transition-colors ${isActive ? 'text-slate-600 hover:text-primary hover:bg-primary/10' : 'text-slate-300 cursor-not-allowed'}`}
                   title="Edit Property"
@@ -314,6 +324,48 @@ export default function UserProperties({ user }) {
           ))}
         </div>
       )}
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {deleteModalId && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setDeleteModalId(null)}
+              className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-2xl z-50 border border-slate-200 dark:border-slate-800"
+            >
+              <div className="w-16 h-16 bg-red-100 dark:bg-red-500/20 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Trash2 className="w-8 h-8" />
+              </div>
+              <h3 className="text-2xl font-bold text-center text-slate-900 dark:text-white mb-3">Delete Property?</h3>
+              <p className="text-center text-slate-500 mb-8">Are you sure you want to delete this property? This action cannot be undone.</p>
+              
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setDeleteModalId(null)}
+                  className="flex-1 py-3.5 rounded-xl font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="flex-1 py-3.5 rounded-xl font-bold text-white bg-red-600 hover:bg-red-700 transition-colors shadow-lg shadow-red-500/30"
+                >
+                  Delete
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
