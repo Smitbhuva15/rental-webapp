@@ -36,7 +36,7 @@ export async function POST(req) {
     );
 
     const response = NextResponse.json(
-      { message: 'Registered successfully', user: { id: user._id, name: user.name, role: user.role, savedProperties: [] } },
+      { message: 'Registered successfully', user: { id: user._id, name: user.name, role: user.role, savedProperties: [], subscription: user.subscription } },
       { status: 201 }
     );
 

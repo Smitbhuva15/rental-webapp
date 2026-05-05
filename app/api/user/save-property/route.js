@@ -22,14 +22,15 @@ export async function POST(req) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
-    const isSaved = user.savedProperties.includes(propertyId);
+    const propertyIdStr = propertyId.toString();
+    const isSaved = user.savedProperties.some(id => id.toString() === propertyIdStr);
     
     if (isSaved) {
       // Remove from saved
-      user.savedProperties = user.savedProperties.filter(id => id.toString() !== propertyId);
+      user.savedProperties = user.savedProperties.filter(id => id.toString() !== propertyIdStr);
     } else {
       // Add to saved
-      user.savedProperties.push(propertyId);
+      user.savedProperties.push(propertyIdStr);
     }
 
     await user.save();
@@ -37,7 +38,7 @@ export async function POST(req) {
     return NextResponse.json({ 
       success: true, 
       isSaved: !isSaved,
-      savedProperties: user.savedProperties
+      savedProperties: user.savedProperties.map(id => id.toString())
     }, { status: 200 });
     
   } catch (error) {

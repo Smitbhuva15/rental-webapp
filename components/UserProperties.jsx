@@ -1,6 +1,9 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Home, MapPin, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, Home, MapPin, X, Lock } from 'lucide-react';
+import { isSubscriptionActive } from '@/lib/subscription';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function UserProperties({ user }) {
   const [properties, setProperties] = useState([]);
@@ -156,9 +159,13 @@ export default function UserProperties({ user }) {
     }
   };
 
+  const router = useRouter();
+  
   if (loading) {
     return <div className="text-center py-8">Loading properties...</div>;
   }
+
+  const isActive = isSubscriptionActive(user);
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
@@ -166,10 +173,17 @@ export default function UserProperties({ user }) {
         <h2 className="text-2xl font-bold text-slate-900 dark:text-white">My Properties</h2>
         {!isFormOpen && (
           <button 
-            onClick={() => setIsFormOpen(true)}
-            className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl font-bold hover:-translate-y-0.5 transition-transform"
+            onClick={() => {
+              if (!isActive) {
+                toast.error("Your subscription has expired. Please renew to list properties.");
+                return;
+              }
+              router.push('/add-property');
+            }}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition-all ${isActive ? 'bg-primary text-white hover:-translate-y-0.5' : 'bg-slate-200 text-slate-500 cursor-not-allowed'}`}
           >
-            <Plus className="w-5 h-5" /> Add Property
+            {isActive ? <Plus className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
+            Add Property
           </button>
         )}
       </div>
@@ -270,15 +284,27 @@ export default function UserProperties({ user }) {
               </div>
               <div className="flex w-full md:w-auto gap-2 justify-end">
                 <button 
-                  onClick={() => openEditForm(property)}
-                  className="p-2 text-slate-600 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors"
+                  onClick={() => {
+                    if (!isActive) {
+                      toast.error("Your subscription has expired. Please renew to edit properties.");
+                      return;
+                    }
+                    openEditForm(property);
+                  }}
+                  className={`p-2 rounded-lg transition-colors ${isActive ? 'text-slate-600 hover:text-primary hover:bg-primary/10' : 'text-slate-300 cursor-not-allowed'}`}
                   title="Edit Property"
                 >
                   <Edit2 className="w-5 h-5" />
                 </button>
                 <button 
-                  onClick={() => handleDelete(property._id)}
-                  className="p-2 text-slate-600 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                  onClick={() => {
+                    if (!isActive) {
+                      toast.error("Your subscription has expired. Please renew to delete properties.");
+                      return;
+                    }
+                    handleDelete(property._id);
+                  }}
+                  className={`p-2 rounded-lg transition-colors ${isActive ? 'text-slate-600 hover:text-red-500 hover:bg-red-500/10' : 'text-slate-300 cursor-not-allowed'}`}
                   title="Delete Property"
                 >
                   <Trash2 className="w-5 h-5" />

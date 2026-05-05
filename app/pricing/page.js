@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
 import { useStore } from '@/lib/store';
+import { isSubscriptionActive } from '@/lib/subscription';
 import { toast } from 'sonner';
 
 export default function Pricing() {
@@ -48,6 +49,11 @@ export default function Pricing() {
   };
 
   const handlePayment = async (planName) => {
+    if (user && isSubscriptionActive(user)) {
+      toast.error("You already have an active subscription plan");
+      return;
+    }
+
     setLoading(true);
     const res = await loadRazorpay();
 
