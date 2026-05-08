@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Property from '@/models/Property';
 import User from '@/models/User';
-import { requireAuth } from '@/lib/auth';
+import { getUserFromCookies } from '@/lib/auth';
 
 export async function GET(req, { params }) {
   try {
@@ -20,11 +20,10 @@ export async function GET(req, { params }) {
 
 export async function PUT(req, { params }) {
   try {
-    const authResult = await requireAuth(req);
-    if (!authResult.isAuthenticated) {
+    const sessionUser = await getUserFromCookies();
+    if (!sessionUser) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
-    const sessionUser = authResult.user;
 
     await dbConnect();
     const { id } = await params;
@@ -109,11 +108,10 @@ export async function PUT(req, { params }) {
 
 export async function DELETE(req, { params }) {
   try {
-    const authResult = await requireAuth(req);
-    if (!authResult.isAuthenticated) {
+    const sessionUser = await getUserFromCookies();
+    if (!sessionUser) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
-    const sessionUser = authResult.user;
 
     await dbConnect();
     const { id } = await params;

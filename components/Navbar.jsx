@@ -91,11 +91,11 @@ export default function Navbar() {
                   <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-blue-100 to-indigo-100 dark:from-blue-900/50 dark:to-indigo-900/50 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-lg shadow-sm">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
-                  {user.subscription?.status === 'active' ? (
+                  {/* {user.subscription?.status === 'active' ? (
                     <div className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${new Date(user.subscription.expiryDate) > new Date() ? 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400'}`}>
                       {new Date(user.subscription.expiryDate) > new Date() ? `${Math.ceil(Math.abs(new Date(user.subscription.expiryDate) - new Date()) / (1000 * 60 * 60 * 24))} days left` : 'Expired'}
                     </div>
-                  ) : null}
+                  ) : null} */}
                   <button onClick={handleLogout} className="text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 p-2 rounded-full transition-colors" title="Logout">
                     <LogOut className="h-5 w-5" />
                   </button>
@@ -114,11 +114,11 @@ export default function Navbar() {
             
           </div>
           <div className="md:hidden flex items-center gap-4">
-            {mounted && (
+            {/* {mounted && (
               <button onClick={toggleTheme} className="text-slate-600 dark:text-slate-300">
                 {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               </button>
-            )}
+            )} */}
             <button onClick={() => setIsOpen(true)} className="text-slate-600 dark:text-slate-300 hover:text-blue-600 focus:outline-none">
               <Menu className="h-6 w-6" />
             </button>

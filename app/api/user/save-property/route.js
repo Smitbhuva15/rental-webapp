@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import {requireAuth } from '@/lib/auth';
+import { getUserFromCookies } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 
 export async function POST(req) {
   try {
-    const authResult = await requireAuth(req);
-    if (!authResult.isAuthenticated) {
+    const sessionUser = await getUserFromCookies();
+    if (!sessionUser) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
@@ -17,7 +17,7 @@ export async function POST(req) {
 
     await dbConnect();
 
-    const user = await User.findById(authResult.user.id);
+    const user = await User.findById(sessionUser.id);
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
@@ -27,13 +27,13 @@ export async function POST(req) {
     let updatedUser;
     if (isSaved) {
       updatedUser = await User.findByIdAndUpdate(
-        authResult.user.id,
+        sessionUser.id,
         { $pull: { savedProperties: propertyId } },
         { new: true }
       );
     } else {
       updatedUser = await User.findByIdAndUpdate(
-        authResult.user.id,
+        sessionUser.id,
         { $addToSet: { savedProperties: propertyId } },
         { new: true }
       );

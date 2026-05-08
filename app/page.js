@@ -23,7 +23,7 @@ const mockProperties = [
     bedrooms: 3,
     bathrooms: 3,
     area: 2100,
-    images: [{ url: "https://placehold.co/600x400/1e293b/ffffff?text=Penthouse" }]
+      images: [{ url: "/apar10.jpeg" }]
   },
   {
     _id: "p2",
@@ -34,7 +34,8 @@ const mockProperties = [
     bedrooms: 2,
     bathrooms: 2,
     area: 1200,
-    images: [{ url: "https://placehold.co/600x400/1e293b/ffffff?text=Suburban+House" }]
+        images: [{ url: "/house.jpeg" }]
+
   },
   {
     _id: "p3",
@@ -45,7 +46,8 @@ const mockProperties = [
     bedrooms: 4,
     bathrooms: 4,
     area: 3500,
-    images: [{ url: "https://placehold.co/600x400/1e293b/ffffff?text=Sea-facing+Villa" }]
+        images: [{ url: "/villa2.jpeg" }]
+
   }
 ];
 
@@ -106,7 +108,7 @@ export default function Home() {
       </section>
 
       {/* Featured Properties */}
-      <section className="py-24 bg-slate-50 dark:bg-slate-950 relative">
+      {/* <section className="py-24 bg-slate-50 dark:bg-slate-950 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
@@ -130,10 +132,10 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Featured Categories */}
-      <section className="py-24 bg-white dark:bg-slate-900">
+      <section className="py-24 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">Explore by Category</h2>
@@ -175,7 +177,7 @@ export default function Home() {
       </section>
 
       {/* Value Proposition */}
-      <section className="py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
+      <section className="py-24 bg-slate-50 dark:bg-slate-900 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-20">
@@ -208,7 +210,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-white dark:bg-slate-900">
+      <section className="py-24 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-4">What Our Users Say</h2>
@@ -247,24 +249,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Banner */}
-      <section className="py-20 px-4">
-        <div className="max-w-5xl mx-auto bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/10 rounded-full blur-[80px]" />
-          <div className="relative z-10">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">Ready to find your dream home?</h2>
-            <p className="text-blue-100 text-xl mb-10 max-w-2xl mx-auto">Join thousands of users who have already found their perfect place without paying a single rupee in brokerage.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/browse" className="bg-white text-blue-600 font-bold px-8 py-4 rounded-2xl shadow-xl hover:scale-105 transition-transform">
-                Browse Properties
-              </Link>
-              <Link href="/signup" className="bg-blue-800 text-white font-bold px-8 py-4 rounded-2xl border border-blue-500/30 hover:bg-blue-900 transition-colors">
-                List Your Property
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+     
     </div>
   );
 }
