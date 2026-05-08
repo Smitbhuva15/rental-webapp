@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useState, useEffect } from 'react';
-import { MapPin, Bed, Bath, Square, Calendar, User, ShieldCheck } from 'lucide-react';
+import { MapPin, Bed, Bath, Square, Calendar, User, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
@@ -171,34 +171,52 @@ export default function PropertyDetails({ params }) {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-             <div className="md:col-span-3 rounded-3xl overflow-hidden aspect-[2/1] md:h-[500px] relative">
-               <Image 
-                 src={property.images && property.images.length > 0 ? property.images[0].url : 'https://placehold.co/1200x600/1e293b/ffffff?text=No+Image'} 
-                 alt="Main" 
-                 fill
-                 sizes="(max-width: 768px) 100vw, 75vw"
-                 className="object-cover hover:scale-105 transition-transform duration-700" 
-               />
-             </div>
-             <div className="hidden md:flex flex-col gap-4">
-               {property.images && property.images.slice(1, 4).map((img, idx) => (
-                 <div key={idx} className="relative flex-1 rounded-3xl overflow-hidden aspect-[4/3] bg-slate-100 dark:bg-slate-800">
-                   <Image 
-                     src={img.url} 
-                     alt={`Gallery ${idx + 1}`} 
-                     fill
-                     sizes="25vw"
-                     className="object-cover hover:scale-105 transition-transform duration-700" 
-                   />
-                 </div>
-               ))}
-               {(!property.images || property.images.length < 4) && [...Array(Math.max(0, 3 - (property.images?.length ? property.images.length - 1 : 0)))].map((_, idx) => (
-                 <div key={`skel-${idx}`} className="relative flex-1 rounded-3xl overflow-hidden aspect-[4/3] bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                   <Image src={`https://placehold.co/400x300/1e293b/ffffff?text=Image+${idx + 2}`} fill alt="Placeholder" className="object-cover" />
-                 </div>
-               ))}
-             </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-auto md:h-[500px] mb-8">
+            {/* Main Image */}
+            <div className="md:col-span-2 md:row-span-2 relative rounded-3xl overflow-hidden aspect-video md:aspect-auto">
+              <Image 
+                src={property.images && property.images.length > 0 ? property.images[0].url : 'https://placehold.co/1200x600/1e293b/ffffff?text=No+Image'} 
+                alt="Main Property Image" 
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover hover:scale-105 transition-transform duration-700" 
+              />
+            </div>
+            
+            {/* Images 2 & 3 (Top right) */}
+            {[1, 2].map((idx) => {
+              const hasImg = property.images && property.images.length > idx;
+              const src = hasImg ? property.images[idx].url : `https://placehold.co/400x300/1e293b/ffffff?text=Image+${idx + 1}`;
+              return (
+                <div key={`gallery-${idx}`} className="hidden md:block relative rounded-3xl overflow-hidden md:col-span-1 md:row-span-1 bg-slate-100 dark:bg-slate-800">
+                  <Image 
+                    src={src} 
+                    alt={`Gallery Image ${idx + 1}`} 
+                    fill
+                    sizes="25vw"
+                    className="object-cover hover:scale-105 transition-transform duration-700" 
+                  />
+                </div>
+              );
+            })}
+            
+            {/* Image 4 (Bottom right, spanning 2 cols) */}
+            <div className="hidden md:block relative rounded-3xl overflow-hidden md:col-span-2 md:row-span-1 bg-slate-100 dark:bg-slate-800">
+              {(() => {
+                const idx = 3;
+                const hasImg = property.images && property.images.length > idx;
+                const src = hasImg ? property.images[idx].url : `https://placehold.co/800x300/1e293b/ffffff?text=Image+4`;
+                return (
+                  <Image 
+                    src={src} 
+                    alt={`Gallery Image 4`} 
+                    fill
+                    sizes="50vw"
+                    className="object-cover hover:scale-105 transition-transform duration-700" 
+                  />
+                );
+              })()}
+            </div>
           </div>
         </div>
 
@@ -207,26 +225,41 @@ export default function PropertyDetails({ params }) {
           
           <div className="lg:col-span-2 space-y-10">
             {/* Quick Stats */}
-            <div className="flex gap-8 py-6 border-y border-slate-200 dark:border-slate-800">
-              <div className="flex gap-3 items-center"><Bed className="h-6 w-6 text-slate-400"/> <div><p className="text-xl font-bold text-slate-900 dark:text-white">{property.bedrooms || 1}</p><p className="text-sm text-slate-500">Bedrooms</p></div></div>
-              <div className="flex gap-3 items-center"><Bath className="h-6 w-6 text-slate-400"/> <div><p className="text-xl font-bold text-slate-900 dark:text-white">{property.bathrooms || 1}</p><p className="text-sm text-slate-500">Bathrooms</p></div></div>
-              <div className="flex gap-3 items-center"><Square className="h-6 w-6 text-slate-400"/> <div><p className="text-xl font-bold text-slate-900 dark:text-white">{property.area || 0}</p><p className="text-sm text-slate-500">Square Ft</p></div></div>
+            <div className="grid grid-cols-3 gap-4 py-8 border-y border-slate-200 dark:border-slate-800/50">
+              <div className="flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-800/50 rounded-2xl">
+                <Bed className="h-8 w-8 text-blue-500 mb-2"/>
+                <p className="text-2xl font-extrabold text-slate-900 dark:text-white">{property.bedrooms || 1}</p>
+                <p className="text-sm text-slate-500 font-medium">Bedrooms</p>
+              </div>
+              <div className="flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-800/50 rounded-2xl">
+                <Bath className="h-8 w-8 text-blue-500 mb-2"/>
+                <p className="text-2xl font-extrabold text-slate-900 dark:text-white">{property.bathrooms || 1}</p>
+                <p className="text-sm text-slate-500 font-medium">Bathrooms</p>
+              </div>
+              <div className="flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-800/50 rounded-2xl">
+                <Square className="h-8 w-8 text-blue-500 mb-2"/>
+                <p className="text-2xl font-extrabold text-slate-900 dark:text-white">{property.area || 0}</p>
+                <p className="text-sm text-slate-500 font-medium">Square Ft</p>
+              </div>
             </div>
 
             {/* Description */}
-            <div>
-               <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">About the Property</h2>
+            <div className="pt-4">
+               <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">About the Property</h2>
                <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg whitespace-pre-line">{property.description}</p>
             </div>
 
             {/* Amenities */}
             {property.amenities && property.amenities.length > 0 && (
-              <div>
-                 <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Amenities</h2>
-                 <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-2">
+              <div className="pt-4">
+                 <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">Amenities</h2>
+                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                    {property.amenities.map((item, index) => (
-                     <div key={index} className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
-                       <div className="h-2 w-2 rounded-full bg-primary" /> {item}
+                     <div key={index} className="flex items-center gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                       <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500">
+                         <CheckCircle2 className="h-5 w-5" />
+                       </div>
+                       <span className="font-medium text-slate-700 dark:text-slate-300">{item}</span>
                      </div>
                    ))}
                  </div>

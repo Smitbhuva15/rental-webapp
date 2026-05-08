@@ -1,19 +1,24 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import PropertyCard from '@/components/PropertyCard';
 import { Search, SlidersHorizontal, MapPin, Building, ChevronDown, CheckCircle2, RotateCcw } from 'lucide-react';
 import { useStore } from '@/lib/store';
 
-export default function Browse() {
+function BrowseContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { user, setUser } = useStore();
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [authChecking, setAuthChecking] = useState(true);
-  const [filters, setFilters] = useState({ category: '', minPrice: '', maxPrice: '', q: '' });
+  
+  const initialCategory = searchParams.get('category') || '';
+  const initialQ = searchParams.get('q') || '';
+
+  const [filters, setFilters] = useState({ category: initialCategory, minPrice: '', maxPrice: '', q: initialQ });
 
   useEffect(() => {
     async function checkAuth() {
@@ -232,5 +237,20 @@ export default function Browse() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function Browse() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-slate-500 font-medium">Loading...</p>
+        </div>
+      </div>
+    }>
+      <BrowseContent />
+    </Suspense>
   );
 }

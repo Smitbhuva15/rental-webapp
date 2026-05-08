@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import Image from "next/image";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Search, MapPin, Building, ChevronRight, Star, Quote, CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PropertyCard from '@/components/PropertyCard';
@@ -52,6 +54,18 @@ const mockProperties = [
 ];
 
 export default function Home() {
+  const router = useRouter();
+  const [location, setLocation] = useState('');
+  const [category, setCategory] = useState('');
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (location) params.append('q', location);
+    if (category) params.append('category', category);
+    router.push(`/browse?${params.toString()}`);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -81,7 +95,8 @@ export default function Home() {
           </motion.div>
 
           {/* Search Bar Widget */}
-          <motion.div 
+          <motion.form 
+            onSubmit={handleSearch}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -89,21 +104,31 @@ export default function Home() {
           >
             <div className="flex-1 relative group">
               <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5 group-focus-within:text-blue-400 transition-colors" />
-              <input type="text" placeholder="Location, City, or zip" className="w-full pl-14 pr-4 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white/10 transition-all font-medium" />
+              <input 
+                type="text" 
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="Location, City, or zip" 
+                className="w-full pl-14 pr-4 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white/10 transition-all font-medium" 
+              />
             </div>
             <div className="flex-1 relative group">
               <Building className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5 group-focus-within:text-blue-400 transition-colors" />
-              <select className="w-full pl-14 pr-4 py-4 rounded-2xl bg-white/5 border border-white/10 text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white/10 transition-all font-medium cursor-pointer">
+              <select 
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full pl-14 pr-4 py-4 rounded-2xl bg-white/5 border border-white/10 text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white/10 transition-all font-medium cursor-pointer"
+              >
                 <option value="" className="text-slate-900">Property Type</option>
                 <option value="Apartment" className="text-slate-900">Apartment</option>
                 <option value="House" className="text-slate-900">House</option>
                 <option value="Villa" className="text-slate-900">Villa</option>
               </select>
             </div>
-            <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/25 active:scale-95">
+            <button type="submit" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/25 active:scale-95">
               <Search className="h-5 w-5" /> Search
             </button>
-          </motion.div>
+          </motion.form>
         </div>
       </section>
 
