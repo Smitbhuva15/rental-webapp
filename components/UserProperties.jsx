@@ -5,6 +5,8 @@ import { isSubscriptionActive } from '@/lib/subscription';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
+import EmptyState from '@/components/EmptyState';
+import LoadingState from '@/components/LoadingState';
 
 export default function UserProperties({ user }) {
   const [properties, setProperties] = useState([]);
@@ -172,7 +174,7 @@ export default function UserProperties({ user }) {
   const router = useRouter();
   
   if (loading) {
-    return <div className="text-center py-8">Loading properties...</div>;
+    return <LoadingState />;
   }
 
   const isActive = isSubscriptionActive(user);
@@ -268,11 +270,11 @@ export default function UserProperties({ user }) {
       )}
 
       {!isFormOpen && properties.length === 0 ? (
-        <div className="text-center py-12 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl">
-          <Home className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">No properties listed</h3>
-          <p className="text-slate-500 mb-6 max-w-md mx-auto">You haven't added any rental properties yet. Click the button above to get started.</p>
-        </div>
+        <EmptyState 
+          icon={Home}
+          title="No properties listed"
+          description="You haven't added any rental properties yet. Click the Add Property button above to get started."
+        />
       ) : (
         <div className="space-y-4">
           {!isFormOpen && properties.map(property => (

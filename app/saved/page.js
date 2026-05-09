@@ -7,6 +7,8 @@ import PropertyCard from '@/components/PropertyCard';
 import { Heart, Home, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useStore } from '@/lib/store';
+import EmptyState from '@/components/EmptyState';
+import LoadingState from '@/components/LoadingState';
 
 export default function SavedProperties() {
   const router = useRouter();
@@ -71,35 +73,21 @@ export default function SavedProperties() {
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-pulse">
-                <div className="aspect-[4/3] bg-slate-200 dark:bg-slate-800"></div>
-                <div className="p-6 space-y-4">
-                  <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
-                  <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <LoadingState type="skeleton-grid" />
         ) : properties.length === 0 ? (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white dark:bg-slate-900 rounded-3xl p-12 text-center border border-slate-200 dark:border-slate-800 shadow-xl max-w-2xl mx-auto"
-          >
-            <div className="w-24 h-24 bg-red-50 dark:bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Heart className="h-10 w-10 text-red-500" />
-            </div>
-            <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-3">No Saved Properties</h3>
-            <p className="text-slate-500 text-lg mb-8">You haven't saved any properties yet. Start exploring and click the heart icon to save your favorites.</p>
-            <Link 
-              href="/browse"
-              className="inline-flex items-center gap-2 font-bold text-white bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-700 transition-colors shadow-lg px-8 py-3.5 rounded-xl active:scale-95"
-            >
-              <Home className="h-5 w-5" /> Browse Properties
-            </Link>
-          </motion.div>
+          <EmptyState 
+            icon={Heart}
+            title="No Saved Properties"
+            description="You haven't saved any properties yet. Start exploring and click the heart icon to save your favorites."
+            action={
+              <Link 
+                href="/browse"
+                className="inline-flex items-center gap-2 font-bold text-white bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-700 transition-colors shadow-lg px-8 py-3.5 rounded-xl active:scale-95"
+              >
+                <Home className="h-5 w-5" /> Browse Properties
+              </Link>
+            }
+          />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {properties.map((prop, idx) => (

@@ -3,7 +3,9 @@
 import { use, useState, useEffect } from 'react';
 import { MapPin, Bed, Bath, Square, Calendar, User, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import EmptyState from '@/components/EmptyState';
+import LoadingState from '@/components/LoadingState';
+import ImageCarousel from '@/components/ImageCarousel';
 
 
 export default function PropertyDetails({ params }) {
@@ -132,17 +134,16 @@ export default function PropertyDetails({ params }) {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-20 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
+    return <LoadingState />;
   }
 
   if (error || !property) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-20 text-center text-red-500 font-bold">
-        {error || 'Property not found'}
+      <div className="py-20">
+        <EmptyState 
+          title="Property Not Found" 
+          description={error || "The property you are looking for doesn't exist or has been removed."} 
+        />
       </div>
     );
   }
@@ -170,53 +171,8 @@ export default function PropertyDetails({ params }) {
               <p className="text-3xl font-black text-slate-900 dark:text-white">₹{property.price?.toLocaleString() || property.price}</p>
             </div>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-auto md:h-[500px] mb-8">
-            {/* Main Image */}
-            <div className="md:col-span-2 md:row-span-2 relative rounded-3xl overflow-hidden aspect-video md:aspect-auto">
-              <Image 
-                src={property.images && property.images.length > 0 ? property.images[0].url : 'https://placehold.co/1200x600/1e293b/ffffff?text=No+Image'} 
-                alt="Main Property Image" 
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover hover:scale-105 transition-transform duration-700" 
-              />
-            </div>
-            
-            {/* Images 2 & 3 (Top right) */}
-            {[1, 2].map((idx) => {
-              const hasImg = property.images && property.images.length > idx;
-              const src = hasImg ? property.images[idx].url : `https://placehold.co/400x300/1e293b/ffffff?text=Image+${idx + 1}`;
-              return (
-                <div key={`gallery-${idx}`} className="hidden md:block relative rounded-3xl overflow-hidden md:col-span-1 md:row-span-1 bg-slate-100 dark:bg-slate-800">
-                  <Image 
-                    src={src} 
-                    alt={`Gallery Image ${idx + 1}`} 
-                    fill
-                    sizes="25vw"
-                    className="object-cover hover:scale-105 transition-transform duration-700" 
-                  />
-                </div>
-              );
-            })}
-            
-            {/* Image 4 (Bottom right, spanning 2 cols) */}
-            <div className="hidden md:block relative rounded-3xl overflow-hidden md:col-span-2 md:row-span-1 bg-slate-100 dark:bg-slate-800">
-              {(() => {
-                const idx = 3;
-                const hasImg = property.images && property.images.length > idx;
-                const src = hasImg ? property.images[idx].url : `https://placehold.co/800x300/1e293b/ffffff?text=Image+4`;
-                return (
-                  <Image 
-                    src={src} 
-                    alt={`Gallery Image 4`} 
-                    fill
-                    sizes="50vw"
-                    className="object-cover hover:scale-105 transition-transform duration-700" 
-                  />
-                );
-              })()}
-            </div>
+          <div className="mb-8">
+            <ImageCarousel images={property.images} altText={property.title} />
           </div>
         </div>
 

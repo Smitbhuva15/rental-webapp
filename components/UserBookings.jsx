@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { Calendar, MapPin, Building, CalendarCheck2 } from 'lucide-react';
 import Link from 'next/link';
+import EmptyState from '@/components/EmptyState';
+import LoadingState from '@/components/LoadingState';
 
 export default function UserBookings() {
   const [bookings, setBookings] = useState([]);
@@ -25,25 +27,23 @@ export default function UserBookings() {
   }, []);
 
   if (loading) {
-    return <div className="text-center py-8">Loading bookings...</div>;
+    return <LoadingState />;
   }
 
   if (bookings.length === 0) {
     return (
-      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-12 text-center">
-        <div className="bg-primary/10 h-20 w-20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <CalendarCheck2 className="w-10 h-10 text-primary" />
-        </div>
-        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">You haven’t booked any house yet</h3>
-        <p className="text-slate-500 mb-8 max-w-md mx-auto text-lg">
-          Ready to find your next home ?
-        </p>
-        <Link href="/">
-          <button className="bg-primary hover:bg-blue-600 text-white font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-500/20">
-            Explore Properties
-          </button>
-        </Link>
-      </div>
+      <EmptyState 
+        icon={CalendarCheck2}
+        title="You haven’t booked any house yet"
+        description="Ready to find your next home ?"
+        action={
+          <Link href="/">
+            <button className="bg-primary hover:bg-blue-600 text-white font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-500/20">
+              Explore Properties
+            </button>
+          </Link>
+        }
+      />
     );
   }
 

@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import PropertyCard from '@/components/PropertyCard';
 import { Search, SlidersHorizontal, MapPin, Building, ChevronDown, CheckCircle2, RotateCcw } from 'lucide-react';
 import { useStore } from '@/lib/store';
+import EmptyState from '@/components/EmptyState';
+import LoadingState from '@/components/LoadingState';
 
 function BrowseContent() {
   const router = useRouter();
@@ -183,36 +185,21 @@ function BrowseContent() {
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-pulse">
-                <div className="aspect-[4/3] bg-slate-200 dark:bg-slate-800"></div>
-                <div className="p-6 space-y-4">
-                  <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
-                  <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
-                  <div className="h-10 bg-slate-200 dark:bg-slate-800 rounded w-full mt-6"></div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <LoadingState type="skeleton-grid" />
         ) : properties.length === 0 ? (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white dark:bg-slate-900 rounded-3xl p-12 text-center border border-slate-200 dark:border-slate-800 shadow-xl mt-8 max-w-2xl mx-auto"
-          >
-             <div className="w-24 h-24 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
-               <Search className="h-10 w-10 text-slate-400" />
-             </div>
-             <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-3">No Properties Found</h3>
-             <p className="text-slate-500 text-lg mb-8">We couldn't find any properties matching your current filters. Try adjusting your search criteria or clearing filters.</p>
-             <button 
-               onClick={clearFilters}
-               className="font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30 px-8 py-3.5 rounded-xl active:scale-95"
-             >
-               Clear All Filters
-             </button>
-          </motion.div>
+          <EmptyState 
+            icon={Search}
+            title="No Properties Found"
+            description="We couldn't find any properties matching your current filters. Try adjusting your search criteria or clearing filters."
+            action={
+              <button 
+                onClick={clearFilters}
+                className="font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30 px-8 py-3.5 rounded-xl active:scale-95"
+              >
+                Clear All Filters
+              </button>
+            }
+          />
         ) : (
           <motion.div 
             initial={{ opacity: 0 }}
@@ -242,14 +229,7 @@ function BrowseContent() {
 
 export default function Browse() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-slate-500 font-medium">Loading...</p>
-        </div>
-      </div>
-    }>
+    <Suspense fallback={<LoadingState type="spinner" />}>
       <BrowseContent />
     </Suspense>
   );
