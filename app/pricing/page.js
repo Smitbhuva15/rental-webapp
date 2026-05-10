@@ -113,7 +113,7 @@ export default function Pricing() {
            contact: "9999999999"
         },
         theme: {
-          color: "#2563eb" // blue-600
+          color: "#802BB1"
         }
       };
 
@@ -129,17 +129,17 @@ export default function Pricing() {
 
   if (authChecking) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
-        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center bg-[#030711]">
+        <div className="w-12 h-12 border-4 border-[#802BB1] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 min-h-screen py-32 relative overflow-hidden">
+    <div className="bg-[#030711] min-h-screen py-32 relative overflow-hidden">
       {/* Background blobs */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px]" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[100px]" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#802BB1]/10 rounded-full blur-[100px]" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#9a5afb]/10 rounded-full blur-[100px]" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div 
@@ -148,7 +148,7 @@ export default function Pricing() {
           className="text-center max-w-3xl mx-auto mb-16"
         >
           <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-6">
-            Simple, Transparent <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Pricing</span>
+            Simple, Transparent <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#802BB1] to-[#bd6eff]">Pricing</span>
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-300 mb-8">
             Choose the perfect plan for your real estate needs. Whether you're a casual renter or a professional property manager, we have you covered without any broker fees.
@@ -159,7 +159,7 @@ export default function Pricing() {
             <span className={`text-sm font-semibold ${!isYearly ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}>Monthly</span>
             <button 
               onClick={() => setIsYearly(!isYearly)}
-              className="w-16 h-8 bg-blue-600 rounded-full p-1 relative transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950"
+              className="w-16 h-8 bg-[#802BB1] rounded-full p-1 relative transition-colors focus:outline-none focus:ring-2 focus:ring-[#802BB1]/30 focus:ring-offset-2 dark:focus:ring-offset-slate-950"
             >
               <motion.div 
                 layout
@@ -180,7 +180,7 @@ export default function Pricing() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-800 flex flex-col hover:-translate-y-2 transition-transform duration-300"
+            className="bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-800  backdrop-blur-xl rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border  flex flex-col hover:-translate-y-2 transition-transform duration-300"
           >
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Basic Renter</h3>
             <p className="text-slate-500 mb-6 min-h-[48px]">Perfect for individuals looking for their next home.</p>
@@ -189,13 +189,13 @@ export default function Pricing() {
             </div>
             
             <ul className="space-y-4 mb-8 flex-1">
-              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" /> Browse & Search properties</li>
-              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" /> Save favorite properties</li>
-              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" /> Contact owners</li>
+              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-[#802BB1] flex-shrink-0" /> Browse & Search properties</li>
+              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-[#802BB1] flex-shrink-0" /> Save favorite properties</li>
+              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-[#802BB1] flex-shrink-0" /> Contact owners</li>
               <li className="flex gap-3 text-slate-400 dark:text-slate-600"><XCircle className="h-6 w-6 flex-shrink-0" /> No property listings</li>
             </ul>
             
-            <button onClick={() => router.push('/browse')} className="w-full text-center py-4 rounded-xl font-bold border-2 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:border-blue-600 hover:text-blue-600 transition-colors">
+            <button onClick={() => router.push('/browse')} className="w-full text-center py-4 rounded-xl font-bold border-2 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:border-[#802BB1] hover:text-[#802BB1] transition-colors">
               Start Browsing
             </button>
           </motion.div>
@@ -205,25 +205,25 @@ export default function Pricing() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-gradient-to-b from-blue-600 to-indigo-700 rounded-3xl p-8 shadow-2xl shadow-blue-600/30 border-0 flex flex-col relative transform md:scale-105 z-10"
+            className="bg-gradient-to-b from-[#802BB1] to-[#bd6eff] rounded-3xl p-8 shadow-2xl shadow-[#802BB1]/30 border-0 flex flex-col relative transform md:scale-105 z-10"
           >
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#802BB1] to-[#bd6eff] text-white text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
               Most Popular
             </div>
             <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2"><Zap className="h-5 w-5 text-yellow-300" /> Premium Owner</h3>
-            <p className="text-blue-100 mb-6 min-h-[48px]">For property owners wanting to bypass broker networks.</p>
+            <p className="text-[#bd6eff] mb-6 min-h-[48px]">For property owners wanting to bypass broker networks.</p>
             <div className="text-4xl font-black text-white mb-8">
-              ₹{isYearly ? '4,790' : '499'} <span className="text-lg font-medium text-blue-200">/{isYearly ? 'yr' : 'mo'}</span>
+              ₹{isYearly ? '4,790' : '499'} <span className="text-lg font-medium text-[#bd6eff]">/{isYearly ? 'yr' : 'mo'}</span>
             </div>
             
             <ul className="space-y-4 mb-8 flex-1 text-white">
-              <li className="flex gap-3"><CheckCircle2 className="h-6 w-6 text-blue-200 flex-shrink-0" /> Everything in Basic</li>
-              <li className="flex gap-3"><CheckCircle2 className="h-6 w-6 text-blue-200 flex-shrink-0" /> Add unlimited properties</li>
-              <li className="flex gap-3"><CheckCircle2 className="h-6 w-6 text-blue-200 flex-shrink-0" /> Edit & manage listings</li>
-              <li className="flex gap-3"><CheckCircle2 className="h-6 w-6 text-blue-200 flex-shrink-0" /> Priority 24/7 support</li>
+              <li className="flex gap-3"><CheckCircle2 className="h-6 w-6 text-[#bd6eff] flex-shrink-0" /> Everything in Basic</li>
+              <li className="flex gap-3"><CheckCircle2 className="h-6 w-6 text-[#bd6eff] flex-shrink-0" /> Add unlimited properties</li>
+              <li className="flex gap-3"><CheckCircle2 className="h-6 w-6 text-[#bd6eff] flex-shrink-0" /> Edit & manage listings</li>
+              <li className="flex gap-3"><CheckCircle2 className="h-6 w-6 text-[#bd6eff] flex-shrink-0" /> Priority 24/7 support</li>
             </ul>
             
-            <button onClick={() => handlePayment(isYearly ? 'premium_yearly' : 'premium_monthly')} disabled={loading} className="w-full text-center py-4 rounded-xl font-bold bg-white text-blue-600 hover:bg-slate-50 transition-transform active:scale-95 shadow-xl disabled:opacity-80">
+            <button onClick={() => handlePayment(isYearly ? 'premium_yearly' : 'premium_monthly')} disabled={loading} className="w-full text-center py-4 rounded-xl font-bold bg-white text-[#802BB1] hover:bg-slate-50 transition-transform active:scale-95 shadow-xl disabled:opacity-80">
               {loading ? 'Processing...' : 'Upgrade to Premium'}
             </button>
           </motion.div>
@@ -235,17 +235,17 @@ export default function Pricing() {
             transition={{ delay: 0.3 }}
             className="bg-white dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-800 flex flex-col hover:-translate-y-2 transition-transform duration-300"
           >
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2"><ShieldCheck className="h-5 w-5 text-purple-500" /> Enterprise</h3>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2"><ShieldCheck className="h-5 w-5 text-[#802BB1]" /> Enterprise</h3>
             <p className="text-slate-500 mb-6 min-h-[48px]">For professional property managers and agencies.</p>
             <div className="text-4xl font-black text-slate-900 dark:text-white mb-8">
               ₹{isYearly ? '95,990' : '9,999'} <span className="text-lg font-medium text-slate-500">/{isYearly ? 'yr' : 'mo'}</span>
             </div>
             
             <ul className="space-y-4 mb-8 flex-1">
-              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" /> Everything in Premium</li>
-              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" /> Custom branding & domain</li>
-              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" /> Advanced analytics dashboard</li>
-              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-green-500 flex-shrink-0" /> Dedicated account manager</li>
+              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-[#802BB1] flex-shrink-0" /> Everything in Premium</li>
+              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-[#802BB1] flex-shrink-0" /> Custom branding & domain</li>
+              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-[#802BB1] flex-shrink-0" /> Advanced analytics dashboard</li>
+              <li className="flex gap-3 text-slate-700 dark:text-slate-300"><CheckCircle2 className="h-6 w-6 text-[#802BB1] flex-shrink-0" /> Dedicated account manager</li>
             </ul>
             
             <button className="w-full py-4 rounded-xl font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100 transition-transform active:scale-95 shadow-xl">

@@ -75,7 +75,7 @@ export default function PropertyCard({ property }) {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5 }}
       whileHover={{ y: -5 }}
-      className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 flex flex-col"
+      className="group bg-white  border  dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-[#802BB1]/10 transition-all duration-300 flex flex-col"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-800">
         <Link href={`/property/${propertyId}`}>
@@ -105,13 +105,13 @@ export default function PropertyCard({ property }) {
       
       <div className="p-6 flex-1 flex flex-col">
         <div className="flex justify-between items-start mb-2">
-          <Link href={`/property/${propertyId}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+          <Link href={`/property/${propertyId}`} className="hover:text-[#802BB1] dark:hover:text-[#bd6eff] transition-colors">
             <h3 className="text-xl font-bold text-slate-900 dark:text-white line-clamp-1">{data.title}</h3>
           </Link>
         </div>
         
         <div className="flex items-center text-slate-500 dark:text-slate-400 text-sm mb-4">
-          <MapPin className="h-4 w-4 mr-1 text-blue-500/70" />
+          <MapPin className="h-4 w-4 mr-1 text-[#802BB1]/70" />
           <span className="line-clamp-1">{data.location?.city || 'Unknown'}, {data.location?.state || 'Unknown'}</span>
         </div>
 
@@ -130,7 +130,7 @@ export default function PropertyCard({ property }) {
           </div>
           <Link 
             href={`/property/${propertyId}`}
-            className="px-5 py-2.5 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-600 hover:text-white text-blue-600 dark:text-blue-400 rounded-xl font-bold transition-all hover:shadow-lg hover:shadow-blue-500/30"
+            className="px-5 py-2.5 bg-[#802BB1]/10 dark:bg-[#802BB1]/10 hover:bg-[#802BB1] hover:text-white text-[#802BB1] dark:text-[#bd6eff] rounded-xl font-bold transition-all hover:shadow-lg hover:shadow-[#802BB1]/30"
           >
             Details
           </Link>

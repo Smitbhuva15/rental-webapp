@@ -52,7 +52,7 @@ export default function SavedProperties() {
   if (!user) return null;
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 min-h-screen py-32 border-t border-slate-200 dark:border-slate-800">
+    <div className="bg-[#030711] min-h-screen py-32 border-t border-[#802BB1]/15">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <motion.h1 
@@ -60,7 +60,7 @@ export default function SavedProperties() {
             animate={{ opacity: 1, x: 0 }}
             className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-3"
           >
-            <Heart className="h-8 w-8 text-red-500 fill-red-500" /> Saved Properties
+            <Heart className="h-8 w-8 text-[#802BB1] fill-[#802BB1]" /> Saved Properties
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
@@ -82,7 +82,7 @@ export default function SavedProperties() {
             action={
               <Link 
                 href="/browse"
-                className="inline-flex items-center gap-2 font-bold text-white bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-700 transition-colors shadow-lg px-8 py-3.5 rounded-xl active:scale-95"
+                className="inline-flex items-center gap-2 font-bold text-white bg-[#802BB1] hover:bg-[#6a1f9a] transition-colors shadow-lg shadow-[#802BB1]/20 px-8 py-3.5 rounded-xl active:scale-95"
               >
                 <Home className="h-5 w-5" /> Browse Properties
               </Link>
