@@ -1,11 +1,15 @@
 "use client";
 
 import { use, useState, useEffect } from 'react';
-import { MapPin, Bed, Bath, Square, Calendar, User, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { MapPin, Bed, Bath, Square, Calendar, User, ShieldCheck, CheckCircle2, Heart, MessageCircle, AlertCircle, Info, Zap } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import EmptyState from '@/components/EmptyState';
 import LoadingState from '@/components/LoadingState';
 import ImageCarousel from '@/components/ImageCarousel';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { addMonths, startOfDay, isWithinInterval, format } from 'date-fns';
+import { motion } from 'framer-motion';
 
 
 export default function PropertyDetails({ params }) {
@@ -18,24 +22,66 @@ export default function PropertyDetails({ params }) {
   const [error, setError] = useState(null);
   const [bookingStatus, setBookingStatus] = useState('idle');
   
-  const [startDate, setStartDate] = useState('');
-  const [duration, setDuration] = useState('11'); // Number of months
+  const [startDate, setStartDate] = useState(null);
+  const [duration, setDuration] = useState('1'); // Number of months
+  const [guestCount, setGuestCount] = useState(1);
+  const [endDate, setEndDate] = useState(null);
+  const [bookedDates, setBookedDates] = useState([]);
+  const [isDateUnavailable, setIsDateUnavailable] = useState(false);
 
   useEffect(() => {
-    async function fetchProperty() {
+    async function fetchPropertyAndBookings() {
       try {
-        const res = await fetch(`/api/properties/${id}`);
-        if (!res.ok) throw new Error('Failed to fetch property details');
-        const data = await res.json();
+        const [propRes, bookRes] = await Promise.all([
+          fetch(`/api/properties/${id}`),
+          fetch(`/api/properties/${id}/bookings`)
+        ]);
+        
+        if (!propRes.ok) throw new Error('Failed to fetch property details');
+        const data = await propRes.json();
         setProperty(data);
+        
+        if (bookRes.ok) {
+          const bData = await bookRes.json();
+          setBookedDates(bData);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     }
-    fetchProperty();
+    fetchPropertyAndBookings();
   }, [id]);
+
+  useEffect(() => {
+    if (startDate) {
+      const end = addMonths(startDate, parseInt(duration));
+      setEndDate(end);
+
+      // Check for overlap
+      const hasOverlap = bookedDates.some(booking => {
+        const bStart = new Date(booking.startDate);
+        const bEnd = new Date(booking.endDate);
+        return (startDate < bEnd && end > bStart);
+      });
+      setIsDateUnavailable(hasOverlap);
+    } else {
+      setEndDate(null);
+      setIsDateUnavailable(false);
+    }
+  }, [startDate, duration, bookedDates]);
+
+  const disabledDateRanges = bookedDates.map(b => ({
+    start: new Date(b.startDate),
+    end: new Date(b.endDate)
+  }));
+
+  const isDateDisabled = (date) => {
+    return disabledDateRanges.some(range => {
+      return isWithinInterval(date, { start: startOfDay(range.start), end: startOfDay(range.end) });
+    });
+  };
 
   const loadRazorpay = () => {
     return new Promise((resolve) => {
@@ -50,6 +96,10 @@ export default function PropertyDetails({ params }) {
   const handleBook = async () => {
     if (!startDate) {
       alert('Please select a start date');
+      return;
+    }
+    if (isDateUnavailable) {
+      alert('Selected dates are unavailable');
       return;
     }
 
@@ -92,7 +142,7 @@ export default function PropertyDetails({ params }) {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
               propertyId: id,
-              startDate,
+              startDate: startDate ? startDate.toISOString() : null,
               months: duration,
               amount: data.amount
             })
@@ -225,73 +275,143 @@ export default function PropertyDetails({ params }) {
 
           {/* Booking Widget Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl sticky top-24">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800 rounded-[2rem] p-6 shadow-2xl sticky top-24"
+            >
                {/* Mobile price duplicate */}
                <div className="md:hidden flex justify-between items-end pb-6 border-b border-slate-100 dark:border-slate-800 mb-6">
                  <p className="text-3xl font-black text-slate-900 dark:text-white">₹{property.price?.toLocaleString() || property.price}</p>
                  <p className="text-sm text-slate-500">/ month</p>
                </div>
 
-               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Book Viewing / Rent</h3>
+               <div className="flex justify-between items-center mb-6">
+                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                   <Zap className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                   Book Now
+                 </h3>
+                 <div className="flex gap-2">
+                   <button className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300">
+                     <Heart className="h-5 w-5" />
+                   </button>
+                 </div>
+               </div>
                
-               <div className="space-y-4 mb-6">
-                 <div>
-                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Start Date</label>
-                   <div className="relative">
-                     <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                     <input 
-                       type="date"
-                       value={startDate}
-                       onChange={(e) => setStartDate(e.target.value)}
-                       className="w-full pl-10 pr-3 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary text-slate-900 dark:text-white" 
-                     />
+               <div className="space-y-5 mb-6">
+                 <div className="grid grid-cols-2 gap-4">
+                   <div className="col-span-2">
+                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Check-in Date</label>
+                     <div className="relative">
+                       <DatePicker
+                         selected={startDate}
+                         onChange={(date) => setStartDate(date)}
+                         minDate={new Date()}
+                         filterDate={(date) => !isDateDisabled(date)}
+                         placeholderText="Select start date"
+                         className="w-full pl-10 pr-3 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white transition-all font-medium"
+                         wrapperClassName="w-full"
+                       />
+                       <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 pointer-events-none" />
+                     </div>
+                   </div>
+
+                   <div className="col-span-1">
+                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Duration</label>
+                     <select 
+                       value={duration}
+                       onChange={(e) => setDuration(e.target.value)}
+                       className="w-full px-3 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white font-medium appearance-none transition-all"
+                     >
+                       <option value="1">1 Month</option>
+                       <option value="2">2 Months</option>
+                       <option value="3">3 Months</option>
+                       <option value="6">6 Months</option>
+                       <option value="12">12+ Months</option>
+                     </select>
+                   </div>
+
+                   <div className="col-span-1">
+                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Guests</label>
+                     <select 
+                       value={guestCount}
+                       onChange={(e) => setGuestCount(Number(e.target.value))}
+                       className="w-full px-3 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 focus:ring-2 focus:ring-primary focus:border-transparent text-slate-900 dark:text-white font-medium appearance-none transition-all"
+                     >
+                       {[1,2,3,4,5,6].map(num => (
+                         <option key={num} value={num}>{num} {num === 1 ? 'Guest' : 'Guests'}</option>
+                       ))}
+                     </select>
                    </div>
                  </div>
-                 <div>
-                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Duration</label>
-                   <select 
-                     value={duration}
-                     onChange={(e) => setDuration(e.target.value)}
-                     className="w-full px-3 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary text-slate-900 dark:text-white"
-                   >
-                     <option value="11">11 Months Agreement</option>
-                     <option value="24">24 Months Agreement</option>
-                   </select>
-                 </div>
-                 
-                 <div className="pt-2 pb-4 flex justify-between items-center text-slate-700 dark:text-slate-300">
-                    <span className="font-semibold">Total Amount:</span>
-                    <span className="font-bold text-lg text-slate-900 dark:text-white">
-                      ₹{((property.price || 0) * parseInt(duration)).toLocaleString()}
-                    </span>
+
+                 {isDateUnavailable && (
+                   <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="flex items-start gap-2 text-red-500 bg-red-50 dark:bg-red-500/10 p-3 rounded-xl border border-red-100 dark:border-red-500/20 text-sm font-medium">
+                     <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+                     <p>This property is already booked for the selected dates. Please adjust your dates.</p>
+                   </motion.div>
+                 )}
+
+                 {startDate && !isDateUnavailable && endDate && (
+                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-500/10 p-3 rounded-xl border border-green-100 dark:border-green-500/20 text-sm font-medium">
+                     <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
+                     <p>Available! Checkout on {format(endDate, 'MMM dd, yyyy')}</p>
+                   </motion.div>
+                 )}
+
+                 <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-700/50 space-y-3">
+                   <div className="flex justify-between items-center text-slate-600 dark:text-slate-400 text-sm">
+                     <span>₹{property.price?.toLocaleString()} x {duration} {duration === '1' ? 'month' : 'months'}</span>
+                     <span className="font-medium text-slate-900 dark:text-white">₹{((property.price || 0) * parseInt(duration)).toLocaleString()}</span>
+                   </div>
+                   <div className="flex justify-between items-center text-slate-600 dark:text-slate-400 text-sm">
+                     <span className="flex items-center gap-1 underline decoration-dashed underline-offset-4 cursor-help" title="Standard cleaning and processing fee">Service fee <Info className="h-3 w-3"/></span>
+                     <span className="font-medium text-slate-900 dark:text-white">₹{parseInt(duration) * 0}</span>
+                   </div>
+                   <div className="pt-3 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                     <span className="font-bold text-slate-900 dark:text-white">Total Amount</span>
+                     <span className="font-black text-xl text-primary">
+                       ₹{((property.price || 0) * parseInt(duration) + (parseInt(duration) * 0)).toLocaleString()}
+                     </span>
+                   </div>
                  </div>
                </div>
 
                <button 
                 onClick={handleBook}
-                disabled={bookingStatus === 'loading' || bookingStatus === 'success'}
-                className="w-full bg-primary hover:bg-blue-600 disabled:bg-blue-400 text-white font-bold py-4 rounded-xl transition-all flex justify-center items-center gap-2 shadow-lg shadow-blue-500/20"
+                disabled={bookingStatus === 'loading' || bookingStatus === 'success' || isDateUnavailable}
+                className="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-slate-400 disabled:to-slate-500 text-white font-bold py-4 rounded-2xl transition-all flex justify-center items-center gap-2 shadow-xl shadow-primary/30 transform hover:scale-[1.02] active:scale-[0.98]"
                >
-                 {bookingStatus === 'idle' && "Book Now"}
+                 {bookingStatus === 'idle' && "Reserve Booking"}
                  {bookingStatus === 'loading' && <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />}
-                 {bookingStatus === 'success' && "Sent Successfully!"}
+                 {bookingStatus === 'success' && "Reserved Successfully!"}
                </button>
+               
+               <p className="text-center text-xs text-slate-500 mt-4 font-medium">You won&apos;t be charged yet</p>
 
-               <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
-                 <div className="flex items-center justify-between">
+               <div className="mt-8 space-y-4">
+                 <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-700/50">
                    <div className="flex items-center gap-3">
-                     <div className="h-12 w-12 bg-slate-200 dark:bg-slate-800 rounded-full flex items-center justify-center">
-                       <User className="h-6 w-6 text-slate-500" />
+                     <div className="h-12 w-12 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center shadow-sm">
+                       <User className="h-6 w-6 text-slate-600 dark:text-slate-300" />
                      </div>
                      <div>
-                       <p className="font-bold text-slate-900 dark:text-white">{property.ownerId?.name || 'Unknown Owner'}</p>
-                       <p className="text-sm text-slate-500">Property Owner</p>
+                       <p className="font-bold text-slate-900 dark:text-white flex items-center gap-1">
+                         {property.ownerId?.name || 'Owner'} 
+                         <ShieldCheck className="h-4 w-4 text-green-500" title="Verified Owner"/>
+                       </p>
+                       <p className="text-xs text-slate-500">Joined recently</p>
                      </div>
                    </div>
-                   <ShieldCheck className="h-6 w-6 text-green-500" title="Verified Owner"/>
+                   <button className="p-2.5 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors" title="Contact Owner">
+                     <MessageCircle className="h-5 w-5" />
+                   </button>
                  </div>
+                 
+                
                </div>
-            </div>
+            </motion.div>
           </div>
         </div>
 
