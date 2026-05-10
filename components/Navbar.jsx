@@ -73,7 +73,7 @@ export default function Navbar() {
 
             <div className="h-8 w-px bg-[#802BB1]/20 mx-2" />
 
-            {user ? (
+            {mounted ? (user ? (
               <div className="flex items-center gap-5">
                 <Link href="/saved" className="relative text-slate-200 hover:text-[#d6b5ff] transition-colors group">
                   <Heart className="h-6 w-6" />
@@ -104,6 +104,8 @@ export default function Navbar() {
                   Sign Up
                 </Link>
               </div>
+            )) : (
+              <div className="w-48 h-10 bg-white/5 animate-pulse rounded-xl" />
             )}
           </div>
 
@@ -146,7 +148,7 @@ export default function Navbar() {
                   <Home className="h-5 w-5 " /> Pricing
                 </Link>
 
-                {user ? (
+                {mounted ? (user ? (
                   <>
                     <div className="my-4 border-t border-[#802BB1]/20"></div>
                     <Link onClick={() => setIsOpen(false)} href="/saved" className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-200 hover:text-[#d6b5ff] hover:bg-[#ffffff]/5 rounded-xl transition-colors">
@@ -168,7 +170,7 @@ export default function Navbar() {
                       Sign Up
                     </Link>
                   </div>
-                )}
+                )) : null}
               </div>
             </motion.div>
           </>

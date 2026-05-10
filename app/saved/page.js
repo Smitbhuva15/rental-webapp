@@ -17,12 +17,21 @@ export default function SavedProperties() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) {
-      router.push('/login');
-      return;
-    }
+    async function checkAuthAndFetchProperties() {
+      // Check auth if user store is empty
+      if (!user) {
+        try {
+          const res = await fetch('/api/auth/me');
+          if (!res.ok) {
+            router.push('/login');
+            return;
+          }
+        } catch {
+          router.push('/login');
+          return;
+        }
+      }
 
-    async function fetchSavedProperties() {
       if (!savedProperties || savedProperties.length === 0) {
         setProperties([]);
         setLoading(false);
@@ -30,9 +39,6 @@ export default function SavedProperties() {
       }
 
       try {
-        // Fetch all properties and filter (or build a dedicated endpoint)
-        // For now, we'll fetch all and filter client-side for simplicity,
-        // but ideally we'd pass IDs to the backend.
         const res = await fetch('/api/properties');
         if (res.ok) {
           const allProps = await res.json();
@@ -46,7 +52,7 @@ export default function SavedProperties() {
       }
     }
 
-    fetchSavedProperties();
+    checkAuthAndFetchProperties();
   }, [user, router, savedProperties]);
 
   if (!user) return null;

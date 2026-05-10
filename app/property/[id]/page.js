@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useState, useEffect } from 'react';
-import { MapPin, Bed, Bath, Square, Calendar, User, ShieldCheck, CheckCircle2, Heart, MessageCircle, AlertCircle, Info, Zap } from 'lucide-react';
+import { MapPin, Bed, Bath, Square, Calendar, User, ShieldCheck, CheckCircle2, Heart, MessageCircle, AlertCircle, Info, Zap, Home } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import EmptyState from '@/components/EmptyState';
 import LoadingState from '@/components/LoadingState';
@@ -10,6 +10,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { addMonths, startOfDay, isWithinInterval, format } from 'date-fns';
 import { motion } from 'framer-motion';
+import { useStore } from '@/lib/store';
+import { toast } from 'sonner';
 
 
 export default function PropertyDetails({ params }) {
@@ -28,6 +30,20 @@ export default function PropertyDetails({ params }) {
   const [endDate, setEndDate] = useState(null);
   const [bookedDates, setBookedDates] = useState([]);
   const [isDateUnavailable, setIsDateUnavailable] = useState(false);
+
+  const { user, savedProperties, toggleSaveProperty } = useStore();
+  const isSaved = savedProperties?.includes(id);
+
+  const handleSave = () => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+    toggleSaveProperty(id);
+    if (!isSaved) toast.success("Property saved!");
+  };
+
+  const isOwner = property?.ownerId?._id === user?.id || property?.ownerId === user?.id;
 
   useEffect(() => {
     async function fetchPropertyAndBookings() {
@@ -95,11 +111,11 @@ export default function PropertyDetails({ params }) {
 
   const handleBook = async () => {
     if (!startDate) {
-      alert('Please select a start date');
+      toast.error('Please select a check-in date');
       return;
     }
     if (isDateUnavailable) {
-      alert('Selected dates are unavailable');
+      toast.error('Selected dates are unavailable');
       return;
     }
 
@@ -107,7 +123,7 @@ export default function PropertyDetails({ params }) {
     const res = await loadRazorpay();
 
     if (!res) {
-      alert("Razorpay SDK failed to load. Are you online?");
+      toast.error("Razorpay SDK failed to load. Are you online?");
       setBookingStatus('idle');
       return;
     }
@@ -121,7 +137,7 @@ export default function PropertyDetails({ params }) {
       const data = await response.json();
       
       if (!response.ok || !data.order) {
-        alert(data.message || "Server error. Please try again.");
+        toast.error(data.message || "Server error. Please try again.");
         setBookingStatus('idle');
         return;
       }
@@ -150,17 +166,18 @@ export default function PropertyDetails({ params }) {
 
           if (verifyData.message === 'Payment verified successfully') {
             setBookingStatus('success');
+            toast.success("Reserved Successfully!");
             setTimeout(() => {
               router.push('/dashboard');
             }, 1500);
           } else {
-            alert('Payment verification failed');
+            toast.error('Payment verification failed');
             setBookingStatus('idle');
           }
         },
         prefill: {
-           name: "RentHub User",
-           email: "user@example.com",
+           name: user?.name || "RentHub User",
+           email: user?.email || "user@example.com",
            contact: "9999999999"
         },
         theme: {
@@ -173,12 +190,13 @@ export default function PropertyDetails({ params }) {
 
       // Reset loading state if modal is manually closed
       paymentObject.on('payment.failed', function () {
+        toast.error("Your house cannot be booked");
         setBookingStatus('idle');
       });
 
     } catch (err) {
       console.error(err);
-      alert('Booking request failed');
+      toast.error('Booking request failed');
       setBookingStatus('idle');
     }
   };
@@ -293,13 +311,33 @@ export default function PropertyDetails({ params }) {
                    Book Now
                  </h3>
                  <div className="flex gap-2">
-                   <button className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300">
-                     <Heart className="h-5 w-5" />
+                   <button 
+                     onClick={handleSave}
+                     className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300"
+                     title="Save Property"
+                   >
+                     <Heart className={`h-5 w-5 ${isSaved ? 'text-red-500 fill-red-500' : ''}`} />
                    </button>
                  </div>
                </div>
                
-               <div className="space-y-5 mb-6">
+               {isOwner ? (
+                 <div className="space-y-5 text-center py-6">
+                   <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                     <Home className="h-8 w-8 text-primary" />
+                   </div>
+                   <h3 className="text-xl font-bold text-slate-900 dark:text-white">You own this property</h3>
+                   <p className="text-slate-500 text-sm">You cannot book your own property. Would you like to edit it instead?</p>
+                   <button 
+                     onClick={() => router.push(`/dashboard/edit-property/${id}`)}
+                     className="w-full mt-4 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white font-bold py-3.5 rounded-xl transition-all"
+                   >
+                     Edit Property
+                   </button>
+                 </div>
+               ) : (
+                 <>
+                   <div className="space-y-5 mb-6">
                  <div className="grid grid-cols-2 gap-4">
                    <div className="col-span-2">
                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Check-in Date</label>
@@ -349,7 +387,7 @@ export default function PropertyDetails({ params }) {
                  {isDateUnavailable && (
                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="flex items-start gap-2 text-red-500 bg-red-50 dark:bg-red-500/10 p-3 rounded-xl border border-red-100 dark:border-red-500/20 text-sm font-medium">
                      <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
-                     <p>This property is already booked for the selected dates. Please adjust your dates.</p>
+                     <p>If you cannot select dates, this house is already booked by another user.</p>
                    </motion.div>
                  )}
 
@@ -389,6 +427,8 @@ export default function PropertyDetails({ params }) {
                </button>
                
                <p className="text-center text-xs text-slate-500 mt-4 font-medium">You won&apos;t be charged yet</p>
+                 </>
+               )}
 
                <div className="mt-8 space-y-4">
                  <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-700/50">
