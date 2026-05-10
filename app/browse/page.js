@@ -105,7 +105,7 @@ function BrowseContent() {
             <p className="text-slate-500 dark:text-slate-400 mt-2 text-lg">Find your perfect home from our verified listings.</p>
           </motion.div>
           
-          <form onSubmit={handleFilter} className="flex flex-col md:flex-row gap-4 bg-white/10 backdrop-blur-sm p-2 rounded-2xl border shadow-[0_35px_120px_-80px_rgba(128,43,177,0.45)]  border-[#802BB1]/20   relative z-30">
+          <form onSubmit={handleFilter} className="flex flex-col md:flex-row gap-4 bg-white/10 backdrop-blur-sm p-2 rounded-2xl border shadow-[0_35px_120px_-80px_rgba(128,43,177,0.45)] border-[#802BB1]/20 relative z-30">
             <div className="flex-1 relative group">
               <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5 group-focus-within:text-[#802BB1] transition-colors" />
               <input 

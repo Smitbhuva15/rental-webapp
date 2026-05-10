@@ -38,7 +38,7 @@ export default function UserBookings() {
         description="Ready to find your next home ?"
         action={
           <Link href="/">
-            <button className="bg-primary hover:bg-blue-600 text-white font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-500/20">
+            <button className="bg-[#802BB1] hover:bg-[#6a1f9a] text-white font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-[#802BB1]/20">
               Explore Properties
             </button>
           </Link>
