@@ -51,75 +51,64 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed w-full z-50 transition-all duration-300 glass border-b border-white/20 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl shadow-sm">
+    <nav className="fixed w-full z-50 transition-all duration-300 bg-[#030711]/95 border-b border-[#802BB1]/20 backdrop-blur-xl shadow-[0_35px_90px_-60px_rgba(128,43,177,0.45)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
-          <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer transition-transform hover:scale-105">
-            <div className="bg-gradient-to-tr from-blue-600 to-indigo-500 p-2 rounded-xl text-white shadow-lg shadow-blue-500/30">
+          <div className="shrink-0 flex items-center gap-3 cursor-pointer transition-transform hover:scale-[1.02]">
+            <div className="bg-linear-to-tr from-[#802BB1] to-[#bd6eff] p-2 rounded-2xl text-white shadow-[0_18px_50px_-35px_rgba(128,43,177,0.85)]">
               <Home className="h-6 w-6" />
             </div>
-            <Link href="/" className="font-bold text-2xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300">
+            <Link href="/" className="font-bold text-2xl tracking-tighter text-white">
               RentHub
             </Link>
           </div>
-          <div className="hidden md:flex space-x-8 items-center">
-            <Link href="/browse" className="flex items-center gap-2 font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors hover:-translate-y-0.5 duration-200">
-              <Compass className="h-4 w-4" /> Browse
+
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="/browse" className="flex items-center gap-2 font-medium text-slate-200 hover:text-[#d6b5ff] transition-colors duration-200">
+               Browse
             </Link>
-            <Link href="/pricing" className="font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors hover:-translate-y-0.5 duration-200">
+            <Link href="/pricing" className="font-medium text-slate-200 hover:text-[#d6b5ff] transition-colors duration-200">
               Pricing
             </Link>
-            
-            <div className="border-l border-slate-200 dark:border-slate-800 h-8 mx-2"></div>
 
-            
-            
+            <div className="h-8 w-px bg-[#802BB1]/20 mx-2" />
+
             {user ? (
-              <div className="flex items-center gap-6">
-                <Link href="/saved" className="relative text-slate-600 dark:text-slate-300 hover:text-red-500 transition-colors group">
-                  <Heart className="h-6 w-6 group-hover:fill-red-500 transition-all" />
+              <div className="flex items-center gap-5">
+                <Link href="/saved" className="relative text-slate-200 hover:text-[#d6b5ff] transition-colors group">
+                  <Heart className="h-6 w-6" />
                   {savedProperties?.length > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold h-4 w-4 flex items-center justify-center rounded-full">
+                    <span className="absolute -top-2 -right-2 bg-[#802BB1] text-white text-[10px] font-bold h-4 w-4 flex items-center justify-center rounded-full shadow-[0_0_0_4px_rgba(128,43,177,0.12)]">
                       {savedProperties.length}
                     </span>
                   )}
                 </Link>
-                <Link href={user.role === 'Admin' ? '/admin' : '/dashboard'} className="flex items-center gap-2 text-slate-800 dark:text-white font-medium hover:text-blue-600 transition-colors">
+                <Link href={user.role === 'Admin' ? '/admin' : '/dashboard'} className="flex items-center gap-2 text-slate-200 hover:text-[#d6b5ff] transition-colors">
                   <LayoutDashboard className="h-5 w-5" /> {user.role === 'Admin' ? 'Admin' : 'Dashboard'}
                 </Link>
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-blue-100 to-indigo-100 dark:from-blue-900/50 dark:to-indigo-900/50 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-lg shadow-sm">
+                  <div className="h-10 w-10 rounded-full bg-[#2f173d] border border-[#802BB1]/30 text-[#e7d8ff] flex items-center justify-center font-bold text-lg shadow-[0_15px_40px_-20px_rgba(128,43,177,0.45)]">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
-                  {/* {user.subscription?.status === 'active' ? (
-                    <div className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${new Date(user.subscription.expiryDate) > new Date() ? 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400'}`}>
-                      {new Date(user.subscription.expiryDate) > new Date() ? `${Math.ceil(Math.abs(new Date(user.subscription.expiryDate) - new Date()) / (1000 * 60 * 60 * 24))} days left` : 'Expired'}
-                    </div>
-                  ) : null} */}
-                  <button onClick={handleLogout} className="text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 p-2 rounded-full transition-colors" title="Logout">
+                  <button onClick={handleLogout} className="text-slate-200 hover:text-white hover:bg-[#802BB1]/10 p-2 rounded-full transition-colors" title="Logout">
                     <LogOut className="h-5 w-5" />
                   </button>
                 </div>
               </div>
             ) : (
               <div className="flex items-center gap-4">
-                <Link href="/login" className="flex items-center gap-2 text-slate-800 dark:text-white font-medium hover:text-blue-600 transition-colors px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800">
-                  <UserCircle className="h-5 w-5" /> Login
+                <Link href="/login" className="text-slate-200 font-medium hover:text-[#d6b5ff] transition-colors px-3 py-2 rounded-lg hover:bg-[#ffffff]/5">
+                  <UserCircle className="h-5 w-5 inline-block" /> Login
                 </Link>
-                <Link href="/signup" className="bg-slate-900 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 hover:bg-slate-800 text-white px-6 py-2.5 rounded-full font-semibold shadow-lg shadow-slate-500/20 transition-all hover:-translate-y-0.5 active:scale-95">
+                <Link href="/signup" className="bg-[#802BB1] hover:bg-[#9e5af8] text-white px-6 py-2.5 rounded-full font-semibold shadow-[0_18px_50px_-35px_rgba(128,43,177,0.9)] transition-all active:scale-95">
                   Sign Up
                 </Link>
               </div>
             )}
-            
           </div>
+
           <div className="md:hidden flex items-center gap-4">
-            {/* {mounted && (
-              <button onClick={toggleTheme} className="text-slate-600 dark:text-slate-300">
-                {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-              </button>
-            )} */}
-            <button onClick={() => setIsOpen(true)} className="text-slate-600 dark:text-slate-300 hover:text-blue-600 focus:outline-none">
+            <button onClick={() => setIsOpen(true)} className="text-slate-200 hover:text-[#d6b5ff] focus:outline-none">
               <Menu className="h-6 w-6" />
             </button>
           </div>
@@ -134,48 +123,48 @@ export default function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 md:hidden"
+              className="fixed inset-0 bg-[#030711]/80 backdrop-blur-sm z-40 md:hidden"
             />
             <motion.div 
-              initial={{ x: "100%" }}
+              initial={{ x: '100%' }}
               animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-              className="fixed top-0 right-0 w-[80%] max-w-sm h-screen bg-white dark:bg-slate-950 shadow-2xl z-50 md:hidden flex flex-col"
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
+              className="fixed top-0 right-0 w-[80%] max-w-sm h-screen bg-[#030711] shadow-[0_30px_80px_-40px_rgba(128,43,177,0.65)] z-50 md:hidden flex flex-col"
             >
-              <div className="p-4 flex justify-end border-b border-slate-100 dark:border-slate-800">
-                <button onClick={() => setIsOpen(false)} className="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
+              <div className="p-4 flex justify-end border-b border-[#802BB1]/20">
+                <button onClick={() => setIsOpen(false)} className="p-2 text-slate-200 hover:bg-[#ffffff]/10 rounded-full transition-colors">
                   <X className="h-6 w-6" />
                 </button>
               </div>
-              
+
               <div className="p-6 flex-1 overflow-y-auto flex flex-col gap-2">
-                <Link onClick={() => setIsOpen(false)} href="/browse" className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors">
-                  <Compass className="h-5 w-5" /> Browse
+                <Link onClick={() => setIsOpen(false)} href="/browse" className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-200 hover:text-[#d6b5ff] hover:bg-[#ffffff]/5 rounded-xl transition-colors">
+                  <Compass className="h-5 w-5 " /> Browse
                 </Link>
-                <Link onClick={() => setIsOpen(false)} href="/pricing" className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors">
-                  <Home className="h-5 w-5" /> Pricing
+                <Link onClick={() => setIsOpen(false)} href="/pricing" className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-200 hover:text-[#d6b5ff] hover:bg-[#ffffff]/5 rounded-xl transition-colors">
+                  <Home className="h-5 w-5 " /> Pricing
                 </Link>
-                
+
                 {user ? (
                   <>
-                    <div className="my-4 border-t border-slate-100 dark:border-slate-800"></div>
-                    <Link onClick={() => setIsOpen(false)} href="/saved" className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-red-500 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors">
+                    <div className="my-4 border-t border-[#802BB1]/20"></div>
+                    <Link onClick={() => setIsOpen(false)} href="/saved" className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-200 hover:text-[#d6b5ff] hover:bg-[#ffffff]/5 rounded-xl transition-colors">
                       <Heart className="h-5 w-5" /> Saved Properties
                     </Link>
-                    <Link onClick={() => setIsOpen(false)} href={user.role === 'Admin' ? '/admin' : '/dashboard'} className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-xl transition-colors">
+                    <Link onClick={() => setIsOpen(false)} href={user.role === 'Admin' ? '/admin' : '/dashboard'} className="flex items-center gap-3 px-4 py-3 text-lg font-medium text-slate-200 hover:text-[#d6b5ff] hover:bg-[#ffffff]/5 rounded-xl transition-colors">
                       <LayoutDashboard className="h-5 w-5" /> {user.role === 'Admin' ? 'Admin Panel' : 'Dashboard'}
                     </Link>
-                    <button onClick={() => { handleLogout(); setIsOpen(false); }} className="flex items-center gap-3 mt-auto text-red-600 px-4 py-4 rounded-xl font-bold bg-red-50 dark:bg-red-500/10">
+                    <button onClick={() => { handleLogout(); setIsOpen(false); }} className="flex items-center gap-3 mt-auto text-white px-4 py-4 rounded-xl font-bold bg-[#802BB1] hover:bg-[#9e5af8] transition-all">
                       <LogOut className="h-5 w-5" /> Logout
                     </button>
                   </>
                 ) : (
                   <div className="mt-auto flex flex-col gap-3">
-                    <Link onClick={() => setIsOpen(false)} href="/login" className="flex justify-center items-center gap-2 text-slate-800 dark:text-white font-bold bg-slate-100 dark:bg-slate-800 px-4 py-3.5 rounded-xl">
+                    <Link onClick={() => setIsOpen(false)} href="/login" className="flex justify-center items-center gap-2 text-slate-200 font-bold bg-[#1a1323] px-4 py-3.5 rounded-xl hover:bg-[#2d163f] transition-colors">
                       <UserCircle className="h-5 w-5" /> Login
                     </Link>
-                    <Link onClick={() => setIsOpen(false)} href="/signup" className="bg-blue-600 text-white flex justify-center text-center px-4 py-3.5 rounded-xl font-bold shadow-lg shadow-blue-500/30">
+                    <Link onClick={() => setIsOpen(false)} href="/signup" className="bg-[#802BB1] text-white flex justify-center px-4 py-3.5 rounded-xl font-bold shadow-[0_16px_40px_-20px_rgba(128,43,177,0.9)] hover:bg-[#9e5af8] transition-all">
                       Sign Up
                     </Link>
                   </div>

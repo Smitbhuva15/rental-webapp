@@ -10,7 +10,7 @@ import PropertyCard from '@/components/PropertyCard';
 
 const categories = [
   { name: "Apartments", image: "/appartment.jpg", count: "1,200+" },
-  { name: "Villas", image: "/villa.jpg", count: "450+" },
+  { name: "Villas", image: "/villa2.jpeg", count: "450+" },
   { name: "Houses", image: "/house.jpg", count: "800+" },
   { name: "Commercial", image: "/commercial.jpg", count: "250+" },
 ];
