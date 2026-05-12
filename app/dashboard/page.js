@@ -33,8 +33,8 @@ export default function UserDashboard() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-slate-50 dark:bg-slate-950">
-        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      <div className="flex justify-center items-center min-h-screen bg-[#030711]">
+        <div className="w-10 h-10 border-4 border-[#802BB1] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -44,15 +44,15 @@ export default function UserDashboard() {
   const isPremiumOrAdmin = user.role === 'Admin' || (user?.subscription?.plan && user.subscription.plan !== 'free' && user.subscription.status === 'active');
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 min-h-screen py-12">
+    <div className="bg-[#030711] min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="flex flex-col md:flex-row gap-8">
           {/* Sidebar */}
           <div className="w-full md:w-64 flex-shrink-0">
-            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-4 sticky top-24">
+            <div className="bg-[#0d0f1b] dark:bg-[#08090f] rounded-2xl shadow-sm border border-[#1c2143] dark:border-[#12131f] p-4 sticky top-24">
               <div className="mb-8 p-4 text-center">
-                <div className="h-16 w-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-3 text-3xl font-bold">
+                <div className="h-16 w-16 bg-[#802BB1]/10 text-[#802BB1] rounded-full flex items-center justify-center mx-auto mb-3 text-3xl font-bold">
                   {user.name.charAt(0).toUpperCase()}
                 </div>
                 <h2 className="font-bold text-slate-900 dark:text-white text-lg">{user.name}</h2>
@@ -62,13 +62,13 @@ export default function UserDashboard() {
               <div className="space-y-1">
                 <button 
                   onClick={() => setActiveTab('bookings')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${activeTab === 'bookings' ? 'bg-primary text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${activeTab === 'bookings' ? 'bg-[#802BB1] text-white' : 'text-slate-300 hover:bg-[#111523] dark:hover:bg-[#12131f]'}`}
                 >
                   <CalendarCheck className="h-5 w-5" /> My Bookings
                 </button>
                 <button 
                   onClick={() => setActiveTab('subscription')}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${activeTab === 'subscription' ? 'bg-primary text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${activeTab === 'subscription' ? 'bg-[#802BB1] text-white' : 'text-slate-300 hover:bg-[#111523] dark:hover:bg-[#12131f]'}`}
                 >
                   <CreditCard className="h-5 w-5" /> Subscription
                 </button>
@@ -76,13 +76,13 @@ export default function UserDashboard() {
                   <>
                     <button 
                       onClick={() => setActiveTab('properties')}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${activeTab === 'properties' ? 'bg-primary text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${activeTab === 'properties' ? 'bg-[#802BB1] text-white' : 'text-slate-300 hover:bg-[#111523] dark:hover:bg-[#12131f]'}`}
                     >
                       <Home className="h-5 w-5" /> My Properties
                     </button>
                     <button 
                       onClick={() => router.push('/add-property')}
-                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors text-slate-300 hover:bg-[#111523] dark:hover:bg-[#12131f]"
                     >
                       <PlusSquare className="h-5 w-5" /> List Property
                     </button>
@@ -100,17 +100,17 @@ export default function UserDashboard() {
 
             {activeTab === 'subscription' && (
               <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-800 p-8 overflow-hidden relative">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -z-10" />
-                <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-8 flex items-center gap-3">
-                  <CreditCard className="h-8 w-8 text-blue-600" /> Subscription Plan
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[#802BB1]/10 rounded-full blur-3xl -z-10" />
+                <h2 className="text-3xl font-extrabold text-slate-100 mb-8 flex items-center gap-3">
+                  <CreditCard className="h-8 w-8 text-[#802BB1]" /> Subscription Plan
                 </h2>
                 
                 {user?.subscription?.plan && user.subscription.plan !== 'free' ? (
                   <div className="space-y-6">
                     <div className={`relative overflow-hidden rounded-3xl p-8 border ${
                       isSubscriptionActive(user) 
-                        ? 'bg-gradient-to-br from-blue-900 via-slate-900 to-indigo-900 border-blue-800/50 text-white shadow-2xl shadow-blue-900/20' 
-                        : 'bg-slate-50 dark:bg-slate-800/50 border-red-200 dark:border-red-900/50 text-slate-900 dark:text-white'
+                        ? 'bg-gradient-to-br from-[#802BB1] via-[#2b173e] to-[#4a1d61] border-[#802BB1]/30 text-white shadow-2xl shadow-[#802BB1]/20' 
+                        : 'bg-[#0e1120] dark:bg-[#08090f]/80 border-red-200 dark:border-red-900/50 text-slate-900 dark:text-white'
                     }`}>
                       {!isSubscriptionActive(user) && (
                         <div className="absolute top-6 right-6 bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400 px-4 py-1.5 rounded-full text-sm font-bold border border-red-200 dark:border-red-800/30">
@@ -125,12 +125,12 @@ export default function UserDashboard() {
                       )}
 
                       <div className="mb-10">
-                        <p className={`text-sm font-bold tracking-wider uppercase mb-2 ${isSubscriptionActive(user) ? 'text-blue-300' : 'text-slate-500 dark:text-slate-400'}`}>
+                        <p className={`text-sm font-bold tracking-wider uppercase mb-2 ${isSubscriptionActive(user) ? 'text-[#bd6eff]' : 'text-slate-500 dark:text-slate-400'}`}>
                           Current Plan
                         </p>
                         <h3 className="text-5xl font-black capitalize flex items-baseline gap-2">
                           {user.subscription.plan}
-                          <span className={`text-xl font-medium ${isSubscriptionActive(user) ? 'text-blue-200' : 'text-slate-500'}`}>
+                          <span className={`text-xl font-medium ${isSubscriptionActive(user) ? 'text-[#bd6eff]' : 'text-slate-500'}`}>
                             {user.subscription.planType === 'yearly' ? 'Yearly' : 'Monthly'}
                           </span>
                         </h3>

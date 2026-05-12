@@ -217,7 +217,7 @@ export default function PropertyDetails({ params }) {
   }
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 min-h-screen py-10">
+    <div className="bg-slate-50 dark:bg-[#030711] min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header & Gallery */}
@@ -225,7 +225,7 @@ export default function PropertyDetails({ params }) {
           <div className="flex justify-between items-start mb-6">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold">{property.category}</span>
+                <span className="text-[#802BB1]  px-3 py-1 rounded-full text-sm font-bold">{property.category}</span>
                 <span className="flex items-center text-slate-500 text-sm">
                   <MapPin className="h-4 w-4 mr-1" /> 
                   {property.location?.city || "Unknown City"}, {property.location?.state || "Unknown State"}
@@ -251,17 +251,17 @@ export default function PropertyDetails({ params }) {
             {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-4 py-8 border-y border-slate-200 dark:border-slate-800/50">
               <div className="flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-800/50 rounded-2xl">
-                <Bed className="h-8 w-8 text-blue-500 mb-2"/>
+                <Bed className="h-8 w-8 text-[#802BB1] mb-2"/>
                 <p className="text-2xl font-extrabold text-slate-900 dark:text-white">{property.bedrooms || 1}</p>
                 <p className="text-sm text-slate-500 font-medium">Bedrooms</p>
               </div>
               <div className="flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-800/50 rounded-2xl">
-                <Bath className="h-8 w-8 text-blue-500 mb-2"/>
+                <Bath className="h-8 w-8 text-[#802BB1] mb-2"/>
                 <p className="text-2xl font-extrabold text-slate-900 dark:text-white">{property.bathrooms || 1}</p>
                 <p className="text-sm text-slate-500 font-medium">Bathrooms</p>
               </div>
               <div className="flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-800/50 rounded-2xl">
-                <Square className="h-8 w-8 text-blue-500 mb-2"/>
+                <Square className="h-8 w-8 text-[#802BB1] mb-2"/>
                 <p className="text-2xl font-extrabold text-slate-900 dark:text-white">{property.area || 0}</p>
                 <p className="text-sm text-slate-500 font-medium">Square Ft</p>
               </div>
@@ -280,7 +280,7 @@ export default function PropertyDetails({ params }) {
                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                    {property.amenities.map((item, index) => (
                      <div key={index} className="flex items-center gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-                       <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500">
+                       <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-[#802BB1]">
                          <CheckCircle2 className="h-5 w-5" />
                        </div>
                        <span className="font-medium text-slate-700 dark:text-slate-300">{item}</span>
