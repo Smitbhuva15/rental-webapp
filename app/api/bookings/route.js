@@ -12,6 +12,7 @@ export async function GET(req) {
     // Admin sees all, User sees their own
     const query = user.role === 'Admin' ? {} : { userId: user.id };
     const bookings = await Booking.find(query)
+      .sort({ createdAt: -1 })
       .populate('propertyId', 'title location images price')
       .populate('userId', 'name email');
 

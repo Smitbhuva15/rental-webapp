@@ -31,7 +31,7 @@ export async function GET(req) {
       ];
     }
 
-    const properties = await Property.find(query).populate('ownerId', 'name email');
+    const properties = await Property.find(query).sort({ createdAt: -1 }).populate('ownerId', 'name email');
     return NextResponse.json(properties, { status: 200 });
   } catch (error) {
     console.error('Error fetching properties:', error);

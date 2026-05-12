@@ -324,7 +324,7 @@ export default function PropertyDetails({ params }) {
                {isOwner ? (
                  <div className="space-y-5 text-center py-6">
                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                     <Home className="h-8 w-8 text-primary" />
+                     <Home className="h-8 w-8 text-[#802BB1]" />
                    </div>
                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">You own this property</h3>
                    <p className="text-slate-500 text-sm">You cannot book your own property. Would you like to edit it instead?</p>
@@ -409,7 +409,7 @@ export default function PropertyDetails({ params }) {
                    </div>
                    <div className="pt-3 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center">
                      <span className="font-bold text-slate-900 dark:text-white">Total Amount</span>
-                     <span className="font-black text-xl text-primary">
+                     <span className="font-black text-xl text-[#802BB1]">
                        ₹{((property.price || 0) * parseInt(duration) + (parseInt(duration) * 0)).toLocaleString()}
                      </span>
                    </div>
@@ -419,7 +419,7 @@ export default function PropertyDetails({ params }) {
                <button 
                 onClick={handleBook}
                 disabled={bookingStatus === 'loading' || bookingStatus === 'success' || isDateUnavailable}
-                className="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-slate-400 disabled:to-slate-500 text-white font-bold py-4 rounded-2xl transition-all flex justify-center items-center gap-2 shadow-xl shadow-primary/30 transform hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full  disabled:from-slate-400 disabled:to-slate-500 text-white font-bold py-4 rounded-2xl transition-all flex bg-gradient-to-r from-[#802BB1] to-[#b56cf5] hover:from-[#9a4ae0] hover:to-[#802BB1] justify-center items-center gap-2 shadow-xl shadow-primary/30 transform hover:scale-[1.02] active:scale-[0.98]"
                >
                  {bookingStatus === 'idle' && "Reserve Booking"}
                  {bookingStatus === 'loading' && <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />}
@@ -444,9 +444,7 @@ export default function PropertyDetails({ params }) {
                        <p className="text-xs text-slate-500">Joined recently</p>
                      </div>
                    </div>
-                   <button className="p-2.5 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors" title="Contact Owner">
-                     <MessageCircle className="h-5 w-5" />
-                   </button>
+                  
                  </div>
                  
                 
