@@ -101,8 +101,8 @@ function BrowseContent() {
       <div className="bg-white/5 backdrop-blur-sm border-b border-[#802BB1]/15 pt-8 pb-8 shadow-sm relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-            <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Browse Properties</h1>
-            <p className="text-slate-500 dark:text-slate-400 mt-2 text-lg">Find your perfect home from our verified listings.</p>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">Browse Properties</h1>
+            <p className="text-slate-400 mt-2 text-lg">Find your perfect home from our verified listings.</p>
           </motion.div>
           
           <form onSubmit={handleFilter} className="flex flex-col md:flex-row gap-4 bg-white/10 backdrop-blur-sm p-2 rounded-2xl border shadow-[0_35px_120px_-80px_rgba(128,43,177,0.45)] border-[#802BB1]/20 relative z-30">
@@ -113,7 +113,7 @@ function BrowseContent() {
                 placeholder="Search by location or title..." 
                 value={filters.q}
                 onChange={(e) => setFilters({ ...filters, q: e.target.value })}
-                className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-white/50 dark:bg-slate-900/50 border-none focus:ring-2 focus:ring-[#802BB1]/30 text-slate-900 dark:text-white shadow-sm transition-all outline-none"
+                className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-slate-900/50 border-none focus:ring-2 focus:ring-[#802BB1]/30 text-white shadow-sm transition-all outline-none"
               />
             </div>
             
@@ -122,7 +122,7 @@ function BrowseContent() {
               <select 
                 value={filters.category}
                 onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-                className="w-full pl-12 pr-10 py-3.5 rounded-xl bg-white/50 dark:bg-slate-900/50 border-none focus:ring-2 focus:ring-[#802BB1]/30 text-slate-900 dark:text-white appearance-none shadow-sm transition-all outline-none font-medium cursor-pointer"
+                className="w-full pl-12 pr-10 py-3.5 rounded-xl bg-slate-900/50 border-none focus:ring-2 focus:ring-[#802BB1]/30 text-white appearance-none shadow-sm transition-all outline-none font-medium cursor-pointer"
               >
                 <option value="" className="text-white bg-[#190e1f]">All Types</option>
                 <option value="Apartment"className="text-white bg-[#190e1f]" > Apartment</option>
@@ -141,7 +141,7 @@ function BrowseContent() {
                   placeholder="Min" 
                   value={filters.minPrice}
                   onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
-                  className="w-full pl-7 pr-3 py-3.5 rounded-xl bg-white/50 dark:bg-slate-900/50 border-none focus:ring-2 focus:ring-[#802BB1]/30 text-slate-900 dark:text-white shadow-sm outline-none transition-all" 
+                  className="w-full pl-7 pr-3 py-3.5 rounded-xl bg-slate-900/50 border-none focus:ring-2 focus:ring-[#802BB1]/30 text-white shadow-sm outline-none transition-all" 
                 />
               </div>
               <div className="relative flex-1">
@@ -151,7 +151,7 @@ function BrowseContent() {
                   placeholder="Max" 
                   value={filters.maxPrice}
                   onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
-                  className="w-full pl-7 pr-3 py-3.5 rounded-xl bg-white/50 dark:bg-slate-900/50 border-none focus:ring-2 focus:ring-[#802BB1]/30 text-slate-900 dark:text-white shadow-sm outline-none transition-all" 
+                  className="w-full pl-7 pr-3 py-3.5 rounded-xl bg-slate-900/50 border-none focus:ring-2 focus:ring-[#802BB1]/30 text-white shadow-sm outline-none transition-all" 
                 />
               </div>
             </div>
@@ -169,16 +169,16 @@ function BrowseContent() {
       {/* Property Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
         <div className="flex justify-between items-center mb-8">
-          <p className="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2">
+          <p className="text-slate-400 font-medium flex items-center gap-2">
             {loading ? (
-              <span className="animate-pulse bg-slate-200 dark:bg-slate-800 h-5 w-32 rounded"></span>
+              <span className="animate-pulse bg-slate-800 h-5 w-32 rounded"></span>
             ) : (
               <><CheckCircle2 className="h-5 w-5 text-green-500" /> {properties.length} properties found</>
             )}
           </p>
           <button 
             onClick={clearFilters}
-            className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium px-4 py-2 rounded-lg hover:bg-white dark:hover:bg-slate-900 shadow-sm transition-all"
+            className="flex items-center gap-2 text-slate-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-900 shadow-sm transition-all"
           >
             <RotateCcw className="h-4 w-4" /> Reset
           </button>

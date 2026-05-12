@@ -273,8 +273,8 @@ export default function EditProperty({ params }) {
 
   if (authChecking) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
-        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center bg-[#030711]">
+        <div className="w-12 h-12 border-4 border-[#802BB1] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -287,17 +287,17 @@ export default function EditProperty({ params }) {
   ];
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 min-h-screen pb-24 border-t border-slate-200 dark:border-slate-800 pt-24">
+    <div className="bg-[#030711] min-h-screen pb-24 border-t border-[#1c2143] pt-24">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header & Progress */}
         <div className="mb-12">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-8">List Your Property</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-8">List Your Property</h1>
           
           <div className="flex items-center justify-between relative">
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-slate-200 dark:bg-slate-800 rounded-full z-0"></div>
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-[#1c2143] rounded-full z-0"></div>
             <motion.div 
-              className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-blue-600 rounded-full z-0 transition-all duration-500 ease-out"
+              className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-[#802BB1] rounded-full z-0 transition-all duration-500 ease-out"
               style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
             ></motion.div>
             
@@ -305,15 +305,15 @@ export default function EditProperty({ params }) {
               const isActive = currentStep === idx + 1;
               const isCompleted = currentStep > idx + 1;
               return (
-                <div key={idx} className="relative z-10 flex flex-col items-center gap-2 bg-slate-50 dark:bg-slate-950 px-2">
+                <div key={idx} className="relative z-10 flex flex-col items-center gap-2 bg-[#030711] px-2">
                   <div className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
-                    isActive ? 'border-blue-600 bg-blue-600 text-white shadow-lg shadow-blue-500/30' : 
-                    isCompleted ? 'border-blue-600 bg-white dark:bg-slate-900 text-blue-600' : 
-                    'border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-400'
+                    isActive ? 'border-[#802BB1] bg-[#802BB1] text-white shadow-lg shadow-[#802BB1]/30' : 
+                    isCompleted ? 'border-[#802BB1] bg-[#0d0f1b] text-[#802BB1]' : 
+                    'border-[#1c2143] bg-[#0d0f1b] text-slate-500'
                   }`}>
                     {isCompleted ? <CheckCircle2 className="h-6 w-6" /> : <step.icon className="h-5 w-5" />}
                   </div>
-                  <span className={`text-sm font-bold ${isActive ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500 dark:text-slate-400'}`}>
+                  <span className={`text-sm font-bold ${isActive ? 'text-[#802BB1]' : 'text-slate-500'}`}>
                     {step.title}
                   </span>
                 </div>
@@ -323,28 +323,28 @@ export default function EditProperty({ params }) {
         </div>
 
         {/* Form Container */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-none p-6 md:p-10 overflow-hidden relative">
+        <div className="bg-[#0d0f1b] border border-[#1c2143] rounded-3xl shadow-xl p-6 md:p-10 overflow-hidden relative">
           <AnimatePresence mode="wait">
             
             {/* STEP 1: Basic Info */}
             {currentStep === 1 && (
               <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Let's start with the basics</h2>
+                <h2 className="text-2xl font-bold text-white mb-6">Let's start with the basics</h2>
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Property Title</label>
+                    <label className="block text-sm font-semibold text-slate-300 mb-2">Property Title</label>
                     <input 
                       type="text" 
                       value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})}
                       placeholder="e.g. Modern Sea-facing Apartment" 
-                      className="w-full px-5 py-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white outline-none transition-all"
+                      className="w-full px-5 py-4 rounded-xl bg-[#030711] border border-[#1c2143] focus:ring-2 focus:ring-[#802BB1] text-white outline-none transition-all"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Category</label>
+                    <label className="block text-sm font-semibold text-slate-300 mb-2">Category</label>
                     <select 
                       value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})}
-                      className="w-full px-5 py-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white outline-none transition-all appearance-none cursor-pointer"
+                      className="w-full px-5 py-4 rounded-xl bg-[#030711] border border-[#1c2143] focus:ring-2 focus:ring-[#802BB1] text-white outline-none transition-all appearance-none cursor-pointer"
                     >
                       <option value="">Select a category</option>
                       <option value="Apartment">Apartment</option>
@@ -354,12 +354,12 @@ export default function EditProperty({ params }) {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Description</label>
+                    <label className="block text-sm font-semibold text-slate-300 mb-2">Description</label>
                     <textarea 
                       rows={5}
                       value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
                       placeholder="Describe what makes your property unique..." 
-                      className="w-full px-5 py-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white outline-none transition-all resize-none"
+                      className="w-full px-5 py-4 rounded-xl bg-[#030711] border border-[#1c2143] focus:ring-2 focus:ring-[#802BB1] text-white outline-none transition-all resize-none"
                     />
                   </div>
                 </div>
@@ -369,54 +369,54 @@ export default function EditProperty({ params }) {
             {/* STEP 2: Location & Details */}
             {currentStep === 2 && (
               <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Pricing, Location & Details</h2>
+                <h2 className="text-2xl font-bold text-white mb-6">Pricing, Location & Details</h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                   <div className="space-y-6">
-                    <h3 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2"><IndianRupee className="h-5 w-5 text-blue-500"/> Pricing</h3>
+                    <h3 className="font-bold text-slate-300 flex items-center gap-2 border-b border-[#1c2143] pb-2"><IndianRupee className="h-5 w-5 text-[#802BB1]"/> Pricing</h3>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Monthly Rent (₹)</label>
+                      <label className="block text-sm font-semibold text-slate-300 mb-2">Monthly Rent (₹)</label>
                       <input 
                         type="number" 
                         value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})}
                         placeholder="e.g. 25000" 
-                        className="w-full px-5 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none"
+                        className="w-full px-5 py-3.5 rounded-xl bg-[#030711] border border-[#1c2143] focus:ring-2 focus:ring-[#802BB1] text-white outline-none"
                       />
                     </div>
                   </div>
                   <div className="space-y-6">
-                    <h3 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2"><Home className="h-5 w-5 text-blue-500"/> Property Details</h3>
+                    <h3 className="font-bold text-slate-300 flex items-center gap-2 border-b border-[#1c2143] pb-2"><Home className="h-5 w-5 text-[#802BB1]"/> Property Details</h3>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Bedrooms</label>
-                        <input type="number" value={formData.bedrooms} onChange={e => setFormData({...formData, bedrooms: e.target.value})} className="w-full px-5 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none" />
+                        <label className="block text-sm font-semibold text-slate-300 mb-2">Bedrooms</label>
+                        <input type="number" value={formData.bedrooms} onChange={e => setFormData({...formData, bedrooms: e.target.value})} className="w-full px-5 py-3.5 rounded-xl bg-[#030711] border border-[#1c2143] focus:ring-2 focus:ring-[#802BB1] text-white outline-none" />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Bathrooms</label>
-                        <input type="number" value={formData.bathrooms} onChange={e => setFormData({...formData, bathrooms: e.target.value})} className="w-full px-5 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none" />
+                        <label className="block text-sm font-semibold text-slate-300 mb-2">Bathrooms</label>
+                        <input type="number" value={formData.bathrooms} onChange={e => setFormData({...formData, bathrooms: e.target.value})} className="w-full px-5 py-3.5 rounded-xl bg-[#030711] border border-[#1c2143] focus:ring-2 focus:ring-[#802BB1] text-white outline-none" />
                       </div>
                       <div className="col-span-2">
-                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Area (sqft)</label>
-                        <input type="number" value={formData.area} onChange={e => setFormData({...formData, area: e.target.value})} className="w-full px-5 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none" />
+                        <label className="block text-sm font-semibold text-slate-300 mb-2">Area (sqft)</label>
+                        <input type="number" value={formData.area} onChange={e => setFormData({...formData, area: e.target.value})} className="w-full px-5 py-3.5 rounded-xl bg-[#030711] border border-[#1c2143] focus:ring-2 focus:ring-[#802BB1] text-white outline-none" />
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-6">
-                  <h3 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2"><MapPin className="h-5 w-5 text-blue-500"/> Location</h3>
+                  <h3 className="font-bold text-slate-300 flex items-center gap-2 border-b border-[#1c2143] pb-2"><MapPin className="h-5 w-5 text-[#802BB1]"/> Location</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">City</label>
-                      <input type="text" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="w-full px-5 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none" />
+                      <label className="block text-sm font-semibold text-slate-300 mb-2">City</label>
+                      <input type="text" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className="w-full px-5 py-3.5 rounded-xl bg-[#030711] border border-[#1c2143] focus:ring-2 focus:ring-[#802BB1] text-white outline-none" />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">State</label>
-                      <input type="text" value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} className="w-full px-5 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none" />
+                      <label className="block text-sm font-semibold text-slate-300 mb-2">State</label>
+                      <input type="text" value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} className="w-full px-5 py-3.5 rounded-xl bg-[#030711] border border-[#1c2143] focus:ring-2 focus:ring-[#802BB1] text-white outline-none" />
                     </div>
                     <div className="col-span-1 md:col-span-2">
-                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Full Address</label>
-                      <textarea rows={2} value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="w-full px-5 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 outline-none resize-none" />
+                      <label className="block text-sm font-semibold text-slate-300 mb-2">Full Address</label>
+                      <textarea rows={2} value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="w-full px-5 py-3.5 rounded-xl bg-[#030711] border border-[#1c2143] focus:ring-2 focus:ring-[#802BB1] text-white outline-none resize-none" />
                     </div>
                   </div>
                 </div>
@@ -427,8 +427,8 @@ export default function EditProperty({ params }) {
             {currentStep === 3 && (
               <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Upload Property Images</h2>
-                  <span className={`text-sm font-bold px-3 py-1 rounded-full ${images.length === 4 ? 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400' : 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400'}`}>
+                  <h2 className="text-2xl font-bold text-white">Upload Property Images</h2>
+                  <span className={`text-sm font-bold px-3 py-1 rounded-full ${images.length === 4 ? 'bg-green-500/20 text-green-400' : 'bg-amber-500/20 text-amber-400'}`}>
                     {images.length}/4 Images
                   </span>
                 </div>
@@ -441,21 +441,21 @@ export default function EditProperty({ params }) {
                 <div 
                   onDragOver={handleDragOver} 
                   onDrop={handleDrop}
-                  className="border-3 border-dashed border-slate-300 dark:border-slate-700 rounded-3xl p-12 text-center hover:border-blue-500 dark:hover:border-blue-500 transition-colors bg-slate-50 dark:bg-slate-800/50 cursor-pointer"
+                  className="border-3 border-dashed border-[#1c2143] rounded-3xl p-12 text-center hover:border-[#802BB1] transition-colors bg-[#030711] cursor-pointer"
                   onClick={() => document.getElementById('fileUpload').click()}
                 >
                   <input type="file" id="fileUpload" className="hidden" multiple accept="image/*" onChange={handleFileInput} />
-                  <div className="w-20 h-20 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <div className="w-20 h-20 bg-[#802BB1]/10 text-[#802BB1] rounded-full flex items-center justify-center mx-auto mb-6">
                     <UploadCloud className="h-10 w-10" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Click or drag images here</h3>
+                  <h3 className="text-xl font-bold text-white mb-2">Click or drag images here</h3>
                   <p className="text-slate-500">JPG, PNG, WEBP formats up to 5MB</p>
                 </div>
 
                 {previews.length > 0 && (
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
                     {previews.map((preview, idx) => (
-                      <div key={idx} className="relative aspect-[4/3] rounded-2xl overflow-hidden group shadow-md border border-slate-200 dark:border-slate-700">
+                      <div key={idx} className="relative aspect-[4/3] rounded-2xl overflow-hidden group shadow-md border border-[#1c2143]">
                         <img src={preview} alt={`Preview ${idx}`} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                           <button 
@@ -466,14 +466,14 @@ export default function EditProperty({ params }) {
                           </button>
                         </div>
                         {idx === 0 && (
-                          <div className="absolute top-2 left-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">Main</div>
+                          <div className="absolute top-2 left-2 bg-[#802BB1] text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">Main</div>
                         )}
                       </div>
                     ))}
                     
                     {/* Skeleton placeholders for remaining images */}
                     {[...Array(4 - previews.length)].map((_, idx) => (
-                      <div key={`skel-${idx}`} className="aspect-[4/3] rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex flex-col items-center justify-center text-slate-400">
+                      <div key={`skel-${idx}`} className="aspect-[4/3] rounded-2xl border-2 border-dashed border-[#1c2143] bg-[#030711] flex flex-col items-center justify-center text-slate-500">
                         <UploadCloud className="h-8 w-8 mb-2 opacity-50" />
                         <span className="text-xs font-medium">Required slot</span>
                       </div>
@@ -487,8 +487,8 @@ export default function EditProperty({ params }) {
             {currentStep === 4 && (
               <motion.div key="step4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Amenities & Features</h2>
-                  <span className="text-sm font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">
+                  <h2 className="text-2xl font-bold text-white">Amenities & Features</h2>
+                  <span className="text-sm font-bold text-slate-500 bg-[#1c2143] px-3 py-1 rounded-full">
                     {formData.amenities.length} Selected
                   </span>
                 </div>
@@ -496,10 +496,10 @@ export default function EditProperty({ params }) {
 
                 <div className="space-y-8 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
                   {amenitiesCategories.map((category, idx) => (
-                    <div key={idx} className="bg-slate-50 dark:bg-slate-800/30 rounded-2xl p-6 border border-slate-100 dark:border-slate-800">
-                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
-                        <div className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-100 dark:border-slate-700">
-                          <category.icon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                    <div key={idx} className="bg-[#030711] rounded-2xl p-6 border border-[#1c2143]">
+                      <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-3">
+                        <div className="p-2 bg-[#0d0f1b] rounded-lg shadow-sm border border-[#1c2143]">
+                          <category.icon className="h-5 w-5 text-[#802BB1]" />
                         </div>
                         {category.title}
                       </h3>
@@ -507,7 +507,7 @@ export default function EditProperty({ params }) {
                         {category.items.map((item, i) => {
                           const isSelected = formData.amenities.includes(item);
                           return (
-                            <label key={i} className={`flex items-center p-4 rounded-xl cursor-pointer border transition-all ${isSelected ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-700'}`}>
+                            <label key={i} className={`flex items-center p-4 rounded-xl cursor-pointer border transition-all ${isSelected ? 'bg-[#802BB1]/10 border-[#802BB1]/30 text-[#802BB1]' : 'bg-[#0d0f1b] border-[#1c2143] text-slate-300 hover:border-[#802BB1]/50'}`}>
                               <div className="relative flex items-center justify-center">
                                 <input 
                                   type="checkbox" 
@@ -515,7 +515,7 @@ export default function EditProperty({ params }) {
                                   checked={isSelected}
                                   onChange={() => toggleAmenity(item)}
                                 />
-                                <div className={`w-5 h-5 rounded flex items-center justify-center transition-colors ${isSelected ? 'bg-blue-600 border-blue-600' : 'bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600'}`}>
+                                <div className={`w-5 h-5 rounded flex items-center justify-center transition-colors ${isSelected ? 'bg-[#802BB1] border-[#802BB1]' : 'bg-[#030711] border-2 border-[#1c2143]'}`}>
                                   {isSelected && <CheckCircle2 className="h-3.5 w-3.5 text-white" />}
                                 </div>
                               </div>
@@ -533,7 +533,7 @@ export default function EditProperty({ params }) {
           </AnimatePresence>
 
           {/* Navigation Buttons */}
-          <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center bg-white dark:bg-slate-900 relative z-20">
+          <div className="mt-10 pt-6 border-t border-[#1c2143] flex justify-between items-center bg-[#0d0f1b] relative z-20">
             <button 
               onClick={() => {
                 if (currentStep > 1) {
@@ -543,7 +543,7 @@ export default function EditProperty({ params }) {
                   router.back();
                 }
               }}
-              className="px-6 py-3 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="px-6 py-3 rounded-xl font-bold text-slate-400 hover:bg-[#1c2143] transition-colors"
             >
               {currentStep === 1 ? 'Cancel' : 'Back'}
             </button>
@@ -551,7 +551,7 @@ export default function EditProperty({ params }) {
             {currentStep < 4 ? (
               <button 
                 onClick={handleNext}
-                className="px-8 py-3 rounded-xl font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100 transition-all flex items-center gap-2 active:scale-95 shadow-lg"
+                className="px-8 py-3 rounded-xl font-bold bg-[#802BB1] text-white hover:bg-[#6a1f9a] transition-all flex items-center gap-2 active:scale-95 shadow-lg"
               >
                 Continue <ChevronRight className="h-5 w-5" />
               </button>
@@ -559,7 +559,7 @@ export default function EditProperty({ params }) {
               <button 
                 onClick={handleSubmit}
                 disabled={loading}
-                className="px-8 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 text-white transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-blue-500/30 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="px-8 py-3 rounded-xl font-bold bg-[#802BB1] hover:bg-[#6a1f9a] text-white transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-[#802BB1]/30 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <><div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Publishing...</>

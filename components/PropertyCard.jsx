@@ -75,9 +75,9 @@ export default function PropertyCard({ property }) {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5 }}
       whileHover={{ y: -5 }}
-      className="group bg-white  border  dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-[#802BB1]/10 transition-all duration-300 flex flex-col"
+      className="group bg-[#0d0f1b] border border-[#1c2143] rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-[#802BB1]/10 transition-all duration-300 flex flex-col"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-800">
+      <div className="relative aspect-[4/3] overflow-hidden bg-[#030711]">
         <Link href={`/property/${propertyId}`}>
           <Image 
             src={imageUrl} 
@@ -87,35 +87,35 @@ export default function PropertyCard({ property }) {
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
         </Link>
-        <div className="absolute top-4 left-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-slate-800 dark:text-slate-200 shadow-sm z-10">
+        <div className="absolute top-4 left-4 bg-[#0d0f1b]/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-slate-200 shadow-sm z-10">
           {data.category}
         </div>
         <button 
           onClick={handleSave}
           disabled={isSaving}
-          className="absolute top-4 right-4 p-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 hover:bg-white dark:hover:bg-slate-800 backdrop-blur-md transition-all shadow-sm active:scale-90"
+          className="absolute top-4 right-4 p-2.5 rounded-full bg-[#0d0f1b]/70 hover:bg-[#1c2143] backdrop-blur-md transition-all shadow-sm active:scale-90"
         >
           {isSaving ? (
-            <Loader2 className="h-5 w-5 text-slate-600 animate-spin" />
+            <Loader2 className="h-5 w-5 text-slate-400 animate-spin" />
           ) : (
-            <Heart className={`h-5 w-5 transition-colors ${isSaved ? 'fill-red-500 text-red-500' : 'text-slate-600 dark:text-slate-300'}`} />
+            <Heart className={`h-5 w-5 transition-colors ${isSaved ? 'fill-red-500 text-red-500' : 'text-slate-300'}`} />
           )}
         </button>
       </div>
       
       <div className="p-6 flex-1 flex flex-col">
         <div className="flex justify-between items-start mb-2">
-          <Link href={`/property/${propertyId}`} className="hover:text-[#802BB1] dark:hover:text-[#bd6eff] transition-colors">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white line-clamp-1">{data.title}</h3>
+          <Link href={`/property/${propertyId}`} className="hover:text-[#802BB1] transition-colors">
+            <h3 className="text-xl font-bold text-white line-clamp-1">{data.title}</h3>
           </Link>
         </div>
         
-        <div className="flex items-center text-slate-500 dark:text-slate-400 text-sm mb-4">
+        <div className="flex items-center text-slate-400 text-sm mb-4">
           <MapPin className="h-4 w-4 mr-1 text-[#802BB1]/70" />
           <span className="line-clamp-1">{data.location?.city || 'Unknown'}, {data.location?.state || 'Unknown'}</span>
         </div>
 
-        <div className="flex gap-4 items-center text-sm text-slate-600 dark:text-slate-400 mb-6 pb-6 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex gap-4 items-center text-sm text-slate-400 mb-6 pb-6 border-b border-[#1c2143]">
           <div className="flex items-center gap-1.5 font-medium"><Bed className="h-4 w-4 text-slate-400"/> {data.bedrooms || 2} Beds</div>
           <div className="flex items-center gap-1.5 font-medium"><Bath className="h-4 w-4 text-slate-400"/> {data.bathrooms || 1} Bath</div>
           <div className="flex items-center gap-1.5 font-medium"><Square className="h-4 w-4 text-slate-400"/> {data.area || 1200} sqft</div>
@@ -123,14 +123,14 @@ export default function PropertyCard({ property }) {
         
         <div className="flex justify-between items-center mt-auto">
           <div>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-0.5">Price</p>
-            <p className="text-2xl font-black text-slate-900 dark:text-white">
+            <p className="text-sm text-slate-400 mb-0.5">Price</p>
+            <p className="text-2xl font-black text-white">
               ₹{data.price?.toLocaleString()} <span className="text-sm font-medium text-slate-500">/mo</span>
             </p>
           </div>
           <Link 
             href={`/property/${propertyId}`}
-            className="px-5 py-2.5 bg-[#802BB1]/10 dark:bg-[#802BB1]/10 hover:bg-[#802BB1] hover:text-white text-[#802BB1] dark:text-[#bd6eff] rounded-xl font-bold transition-all hover:shadow-lg hover:shadow-[#802BB1]/30"
+            className="px-5 py-2.5 bg-[#802BB1]/10 hover:bg-[#802BB1] hover:text-white text-[#802BB1] rounded-xl font-bold transition-all hover:shadow-lg hover:shadow-[#802BB1]/30"
           >
             Details
           </Link>

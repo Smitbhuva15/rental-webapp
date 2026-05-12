@@ -32,7 +32,9 @@ export default function UserBookings() {
     return <LoadingState />;
   }
 
-  if (bookings.length === 0) {
+  const validBookings = bookings.filter(b => b.propertyId);
+
+  if (validBookings.length === 0) {
     return (
       <EmptyState 
         icon={CalendarCheck2}
@@ -50,23 +52,20 @@ export default function UserBookings() {
   }
 
   return (
-    <div className="bg-white/50 dark:bg-[#08090f]/50 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200/50 dark:border-[#12131f] p-8">
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-3">
+    <div className="bg-[#030711] backdrop-blur-xl rounded-3xl shadow-xl border border-[#802BB1]/20 p-4 md:p-8">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-white flex items-center gap-3">
           <CalendarCheck2 className="h-8 w-8 text-[#802BB1]" />
           My Bookings
         </h2>
-        <span className="bg-[#802BB1]/10 text-[#802BB1] px-4 py-1.5 rounded-full font-bold text-sm">
-          {bookings.length} {bookings.length === 1 ? 'Booking' : 'Bookings'}
+        <span className="bg-[#802BB1]/10 text-[#802BB1] px-4 py-1.5 rounded-full font-bold text-sm self-start md:self-auto">
+          {validBookings.length} {validBookings.length === 1 ? 'Booking' : 'Bookings'}
         </span>
       </div>
       
       <div className="space-y-6">
-        {bookings.map((booking, index) => {
+        {validBookings.map((booking, index) => {
           const property = booking.propertyId;
-          // Skip if property is deleted/null and we want to remove fallback
-          if (!property) return null;
-
           const title = property.title;
           const location = property.location || {};
           const imageUrl = (property.images && property.images.length > 0) ? property.images[0].url : 'https://placehold.co/400x300/1e293b/ffffff?text=No+Image';
@@ -88,71 +87,71 @@ export default function UserBookings() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="group relative overflow-hidden bg-white dark:bg-[#0d0f1b] rounded-2xl border border-slate-200 dark:border-[#1c2143] hover:border-[#802BB1]/50 dark:hover:border-[#802BB1]/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-[#802BB1]/10"
+              className="group relative overflow-hidden bg-[#0d0f1b] rounded-2xl border border-[#1c2143] hover:border-[#802BB1]/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-[#802BB1]/10"
             >
-              <div className="flex flex-col md:flex-row">
-                <div className="md:w-64 h-48 md:h-auto relative overflow-hidden flex-shrink-0">
+              <div className="flex flex-col lg:flex-row">
+                <div className="lg:w-64 h-48 lg:h-auto relative overflow-hidden flex-shrink-0">
                   <img src={imageUrl} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute top-4 left-4">
-                    <span className="inline-flex items-center px-3 py-1.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-[#802BB1] text-xs font-bold rounded-lg uppercase tracking-wider gap-1.5 shadow-sm">
+                    <span className="inline-flex items-center px-3 py-1.5 bg-[#030711]/90 backdrop-blur-md text-[#802BB1] text-xs font-bold rounded-lg uppercase tracking-wider gap-1.5 shadow-sm border border-[#802BB1]/20">
                       <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
                       {booking.status}
                     </span>
                   </div>
                 </div>
                 
-                <div className="flex-1 p-6 flex flex-col justify-between">
+                <div className="flex-1 p-4 md:p-6 flex flex-col justify-between overflow-hidden">
                   <div>
                     <Link href={`/property/${property._id}`}>
-                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white hover:text-[#802BB1] transition-colors cursor-pointer mb-2 group-hover:text-[#802BB1]">
+                      <h3 className="text-xl md:text-2xl font-bold text-white hover:text-[#802BB1] transition-colors cursor-pointer mb-2 truncate">
                         {title}
                       </h3>
                     </Link>
-                    <div className="flex items-center text-slate-500 text-sm mb-6 font-medium">
-                      <MapPin className="w-4 h-4 mr-1.5 text-slate-400" /> 
-                      {location.city}, {location.state}
+                    <div className="flex items-center text-slate-400 text-sm mb-6 font-medium truncate">
+                      <MapPin className="w-4 h-4 mr-1.5 text-slate-500 flex-shrink-0" /> 
+                      <span className="truncate">{location.city}, {location.state}</span>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-slate-100 dark:border-slate-800/50">
-                    <div>
-                      <p className="text-slate-500 text-xs mb-1 uppercase tracking-wider font-semibold flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5" /> Check-in
+                  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-[#1c2143]">
+                    <div className="overflow-hidden">
+                      <p className="text-slate-500 text-xs mb-1 uppercase tracking-wider font-semibold flex items-center gap-1.5 truncate">
+                        <Calendar className="w-3.5 h-3.5 text-[#802BB1]" /> Check-in
                       </p>
-                      <p className="font-bold text-slate-900 dark:text-slate-200">
+                      <p className="font-bold text-slate-200 text-sm md:text-base truncate">
                         {format(startDate, 'MMM dd, yyyy')}
                       </p>
                     </div>
-                    <div>
-                      <p className="text-slate-500 text-xs mb-1 uppercase tracking-wider font-semibold flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5" /> Check-out
+                    <div className="overflow-hidden">
+                      <p className="text-slate-500 text-xs mb-1 uppercase tracking-wider font-semibold flex items-center gap-1.5 truncate">
+                        <Calendar className="w-3.5 h-3.5 text-[#802BB1]" /> Check-out
                       </p>
-                      <p className="font-bold text-slate-900 dark:text-slate-200">
+                      <p className="font-bold text-slate-200 text-sm md:text-base truncate">
                         {format(endDate, 'MMM dd, yyyy')}
                       </p>
                     </div>
-                    <div>
-                      <p className="text-slate-500 text-xs mb-1 uppercase tracking-wider font-semibold flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5" /> Duration
+                    <div className="overflow-hidden">
+                      <p className="text-slate-500 text-xs mb-1 uppercase tracking-wider font-semibold flex items-center gap-1.5 truncate">
+                        <Clock className="w-3.5 h-3.5 text-[#802BB1]" /> Duration
                       </p>
-                      <p className="font-bold text-slate-900 dark:text-slate-200">
+                      <p className="font-bold text-slate-200 text-sm md:text-base truncate">
                         {displayDuration}
                       </p>
                     </div>
-                    <div>
-                      <p className="text-slate-500 text-xs mb-1 uppercase tracking-wider font-semibold flex items-center gap-1.5">
-                        <CreditCard className="w-3.5 h-3.5" /> Total Amount
+                    <div className="overflow-hidden">
+                      <p className="text-slate-500 text-xs mb-1 uppercase tracking-wider font-semibold flex items-center gap-1.5 truncate">
+                        <CreditCard className="w-3.5 h-3.5 text-[#802BB1]" /> Total
                       </p>
-                      <p className="font-bold text-[#802BB1] text-lg">
+                      <p className="font-bold text-[#802BB1] text-base md:text-lg truncate">
                         ₹{(booking.totalPrice || 0).toLocaleString()}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="hidden md:flex items-center justify-center px-6 border-l border-slate-100 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-900/20">
+                <div className="hidden lg:flex items-center justify-center px-6 border-l border-[#1c2143] bg-[#08090f]">
                   <Link href={`/property/${property._id}`}>
-                    <button className="w-12 h-12 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm border border-slate-200 dark:border-slate-700 group-hover:bg-[#802BB1] group-hover:text-white group-hover:border-[#802BB1] transition-all duration-300">
+                    <button className="w-12 h-12 rounded-full bg-[#030711] flex items-center justify-center shadow-sm border border-[#1c2143] group-hover:bg-[#802BB1] group-hover:text-white group-hover:border-[#802BB1] transition-all duration-300">
                       <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" />
                     </button>
                   </Link>

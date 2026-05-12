@@ -180,9 +180,9 @@ export default function UserProperties({ user }) {
   const isActive = isSubscriptionActive(user);
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
+    <div className="bg-[#030711] rounded-2xl shadow-sm border border-[#12131f] p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">My Properties</h2>
+        <h2 className="text-2xl font-bold text-white">My Properties</h2>
         {!isFormOpen && (
           <button 
             onClick={() => {
@@ -192,7 +192,7 @@ export default function UserProperties({ user }) {
               }
               router.push('/add-property');
             }}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition-all ${isActive ? 'bg-primary text-white hover:-translate-y-0.5' : 'bg-slate-200 text-slate-500 cursor-not-allowed'}`}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition-all ${isActive ? 'bg-[#802BB1] text-white hover:-translate-y-0.5 shadow-lg shadow-[#802BB1]/20' : 'bg-[#1c2143] text-slate-500 cursor-not-allowed'}`}
           >
             {isActive ? <Plus className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
             Add Property
@@ -201,12 +201,12 @@ export default function UserProperties({ user }) {
       </div>
 
       {isFormOpen && (
-        <div className="mb-8 bg-slate-50 dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
+        <div className="mb-8 bg-[#0d0f1b] p-6 rounded-xl border border-[#1c2143]">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+            <h3 className="text-xl font-bold text-white">
               {isEditing ? 'Edit Property' : 'Add New Property'}
             </h3>
-            <button onClick={resetForm} className="text-slate-500 hover:text-slate-800 dark:hover:text-white">
+            <button onClick={resetForm} className="text-slate-500 hover:text-white">
               <X className="w-6 h-6" />
             </button>
           </div>
@@ -214,12 +214,12 @@ export default function UserProperties({ user }) {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Title</label>
-                <input required type="text" name="title" value={formData.title} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" />
+                <label className="block text-sm font-medium text-slate-300 mb-1">Title</label>
+                <input required type="text" name="title" value={formData.title} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-[#1c2143] bg-[#030711] text-white focus:border-[#802BB1] focus:ring-1 focus:ring-[#802BB1] outline-none transition-all" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Category</label>
-                <select required name="category" value={formData.category} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                <label className="block text-sm font-medium text-slate-300 mb-1">Category</label>
+                <select required name="category" value={formData.category} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-[#1c2143] bg-[#030711] text-white focus:border-[#802BB1] focus:ring-1 focus:ring-[#802BB1] outline-none transition-all">
                   <option value="Apartment">Apartment</option>
                   <option value="House">House</option>
                   <option value="Villa">Villa</option>
@@ -228,39 +228,39 @@ export default function UserProperties({ user }) {
                 </select>
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Description</label>
-                <textarea required rows="3" name="description" value={formData.description} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white"></textarea>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Description</label>
+                <textarea required rows="3" name="description" value={formData.description} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-[#1c2143] bg-[#030711] text-white focus:border-[#802BB1] focus:ring-1 focus:ring-[#802BB1] outline-none transition-all"></textarea>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Price / Month</label>
-                <input required type="number" name="price" value={formData.price} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" />
+                <label className="block text-sm font-medium text-slate-300 mb-1">Price / Month</label>
+                <input required type="number" name="price" value={formData.price} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-[#1c2143] bg-[#030711] text-white focus:border-[#802BB1] focus:ring-1 focus:ring-[#802BB1] outline-none transition-all" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">City</label>
-                <input required type="text" name="location.city" value={formData.location.city} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" />
+                <label className="block text-sm font-medium text-slate-300 mb-1">City</label>
+                <input required type="text" name="location.city" value={formData.location.city} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-[#1c2143] bg-[#030711] text-white focus:border-[#802BB1] focus:ring-1 focus:ring-[#802BB1] outline-none transition-all" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">State</label>
-                <input required type="text" name="location.state" value={formData.location.state} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" />
+                <label className="block text-sm font-medium text-slate-300 mb-1">State</label>
+                <input required type="text" name="location.state" value={formData.location.state} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-[#1c2143] bg-[#030711] text-white focus:border-[#802BB1] focus:ring-1 focus:ring-[#802BB1] outline-none transition-all" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Address</label>
-                <input required type="text" name="location.address" value={formData.location.address} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" />
+                <label className="block text-sm font-medium text-slate-300 mb-1">Address</label>
+                <input required type="text" name="location.address" value={formData.location.address} onChange={handleInputChange} className="w-full px-4 py-2 rounded-lg border border-[#1c2143] bg-[#030711] text-white focus:border-[#802BB1] focus:ring-1 focus:ring-[#802BB1] outline-none transition-all" />
               </div>
 
               {!isEditing && (
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Upload Images (Required)</label>
-                  <input required={!isEditing} type="file" multiple accept="image/*" onChange={handleFileChange} className="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" />
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Upload Images (Required)</label>
+                  <input required={!isEditing} type="file" multiple accept="image/*" onChange={handleFileChange} className="w-full px-4 py-2 rounded-lg border border-[#1c2143] bg-[#030711] text-white" />
                 </div>
               )}
             </div>
 
             <div className="flex justify-end gap-3 mt-6">
-              <button type="button" onClick={resetForm} className="px-5 py-2.5 rounded-xl font-bold text-slate-700 dark:text-slate-300 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">
+              <button type="button" onClick={resetForm} className="px-5 py-2.5 rounded-xl font-bold text-slate-300 bg-[#1c2143] hover:bg-[#2a3158] transition-colors">
                 Cancel
               </button>
-              <button disabled={submitLoading} type="submit" className="px-5 py-2.5 rounded-xl font-bold text-white bg-primary hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2">
+              <button disabled={submitLoading} type="submit" className="px-5 py-2.5 rounded-xl font-bold text-white bg-[#802BB1] hover:bg-[#6a1f9a] transition-colors disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-[#802BB1]/20">
                 {submitLoading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
                 {isEditing ? 'Save Changes' : 'Publish Property'}
               </button>
@@ -278,19 +278,19 @@ export default function UserProperties({ user }) {
       ) : (
         <div className="space-y-4">
           {!isFormOpen && properties.map(property => (
-            <div key={property._id} className="border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col md:flex-row gap-6 items-center hover:shadow-md transition-shadow bg-white dark:bg-slate-900">
-              <div className="h-24 w-24 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden flex-shrink-0">
+            <div key={property._id} className="border border-[#1c2143] rounded-xl p-4 flex flex-col md:flex-row gap-6 items-center hover:shadow-xl hover:shadow-[#802BB1]/10 hover:border-[#802BB1]/30 transition-all bg-[#0d0f1b]">
+              <div className="h-24 w-24 bg-[#030711] rounded-xl overflow-hidden flex-shrink-0">
                 <img src={property.images[0]?.url || 'https://placehold.co/200x200/1e293b/ffffff?text=No+Image'} alt={property.title} className="w-full h-full object-cover" />
               </div>
               <div className="flex-1 w-full">
                 <div className="flex justify-between items-start mb-1">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">{property.title}</h3>
-                  <p className="font-bold text-primary">${property.price}/mo</p>
+                  <h3 className="text-lg font-bold text-white">{property.title}</h3>
+                  <p className="font-bold text-[#802BB1]">${property.price}/mo</p>
                 </div>
-                <div className="flex items-center text-slate-500 text-sm mb-2">
-                  <MapPin className="w-4 h-4 mr-1" /> {property.location.city}, {property.location.state}
+                <div className="flex items-center text-slate-400 text-sm mb-2">
+                  <MapPin className="w-4 h-4 mr-1 text-slate-500" /> {property.location.city}, {property.location.state}
                 </div>
-                <div className="inline-block px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-lg uppercase tracking-wider">
+                <div className="inline-block px-2.5 py-1 bg-[#030711] border border-[#1c2143] text-slate-300 text-xs font-bold rounded-lg uppercase tracking-wider">
                   {property.category}
                 </div>
               </div>
@@ -303,7 +303,7 @@ export default function UserProperties({ user }) {
                     }
                     router.push(`/dashboard/edit-property/${property._id}`);
                   }}
-                  className={`p-2 rounded-lg transition-colors ${isActive ? 'text-slate-600 hover:text-primary hover:bg-primary/10' : 'text-slate-300 cursor-not-allowed'}`}
+                  className={`p-2 rounded-lg transition-colors ${isActive ? 'text-slate-400 hover:text-[#802BB1] hover:bg-[#802BB1]/10' : 'text-slate-600 cursor-not-allowed'}`}
                   title="Edit Property"
                 >
                   <Edit2 className="w-5 h-5" />
@@ -316,7 +316,7 @@ export default function UserProperties({ user }) {
                     }
                     handleDelete(property._id);
                   }}
-                  className={`p-2 rounded-lg transition-colors ${isActive ? 'text-slate-600 hover:text-red-500 hover:bg-red-500/10' : 'text-slate-300 cursor-not-allowed'}`}
+                  className={`p-2 rounded-lg transition-colors ${isActive ? 'text-slate-400 hover:text-red-500 hover:bg-red-500/10' : 'text-slate-600 cursor-not-allowed'}`}
                   title="Delete Property"
                 >
                   <Trash2 className="w-5 h-5" />
@@ -336,24 +336,24 @@ export default function UserProperties({ user }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setDeleteModalId(null)}
-              className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-[#030711]/80 backdrop-blur-sm z-50"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-2xl z-50 border border-slate-200 dark:border-slate-800"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-[#0d0f1b] rounded-3xl p-8 shadow-2xl z-50 border border-[#1c2143]"
             >
-              <div className="w-16 h-16 bg-red-100 dark:bg-red-500/20 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Trash2 className="w-8 h-8" />
               </div>
-              <h3 className="text-2xl font-bold text-center text-slate-900 dark:text-white mb-3">Delete Property?</h3>
-              <p className="text-center text-slate-500 mb-8">Are you sure you want to delete this property? This action cannot be undone.</p>
+              <h3 className="text-2xl font-bold text-center text-white mb-3">Delete Property?</h3>
+              <p className="text-center text-slate-400 mb-8">Are you sure you want to delete this property? This action cannot be undone.</p>
               
               <div className="flex gap-4">
                 <button
                   onClick={() => setDeleteModalId(null)}
-                  className="flex-1 py-3.5 rounded-xl font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                  className="flex-1 py-3.5 rounded-xl font-bold text-slate-300 bg-[#1c2143] hover:bg-[#2a3158] transition-colors"
                 >
                   Cancel
                 </button>
