@@ -5,7 +5,7 @@ import { MapPin, Bed, Bath, Square, Calendar, User, ShieldCheck, CheckCircle2, H
 import { useRouter } from 'next/navigation';
 import EmptyState from '@/components/EmptyState';
 import LoadingState from '@/components/LoadingState';
-import ImageCarousel from '@/components/ImageCarousel';
+import ImageGallery from '@/components/ImageGallery';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { addMonths, startOfDay, isWithinInterval, format } from 'date-fns';
@@ -240,7 +240,7 @@ export default function PropertyDetails({ params }) {
             </div>
           </div>
           <div className="mb-8">
-            <ImageCarousel images={property.images} altText={property.title} />
+            <ImageGallery images={property.images} altText={property.title} />
           </div>
         </div>
 

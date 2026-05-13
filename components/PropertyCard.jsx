@@ -83,7 +83,10 @@ export default function PropertyCard({ property }) {
             src={imageUrl} 
             alt={data.title} 
             fill
+            quality={100}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            placeholder="blur"
+            blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMxZTI5M2IiLz48L3N2Zz4="
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
         </Link>
