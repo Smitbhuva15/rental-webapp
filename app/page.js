@@ -9,10 +9,10 @@ import { motion } from 'framer-motion';
 import PropertyCard from '@/components/PropertyCard';
 
 const categories = [
-  { name: "Apartments", image: "/appartment.jpg", count: "1,200+" },
-  { name: "Villas", image: "/villa2.jpeg", count: "450+" },
-  { name: "Houses", image: "/house.jpg", count: "800+" },
-  { name: "Commercial", image: "/commercial.jpg", count: "250+" },
+  { name: "Apartments", image: "/apartment.jpeg", count: "1,200+" },
+  { name: "Villas", image: "/villa.jpeg", count: "450+" },
+  { name: "Houses", image: "/house.jpeg", count: "800+" },
+  { name: "Commercial", image: "/commercial.jpeg", count: "250+" },
 ];
 
 const mockProperties = [
@@ -25,7 +25,7 @@ const mockProperties = [
     bedrooms: 3,
     bathrooms: 3,
     area: 2100,
-      images: [{ url: "/apar10.jpeg" }]
+      images: [{ url: "/apartment.jpeg" }]
   },
   {
     _id: "p2",
@@ -48,7 +48,7 @@ const mockProperties = [
     bedrooms: 4,
     bathrooms: 4,
     area: 3500,
-        images: [{ url: "/villa2.jpeg" }]
+        images: [{ url: "/villa.jpeg" }]
 
   }
 ];

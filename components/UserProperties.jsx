@@ -285,7 +285,7 @@ export default function UserProperties({ user }) {
               <div className="flex-1 w-full">
                 <div className="flex justify-between items-start mb-1">
                   <h3 className="text-lg font-bold text-white">{property.title}</h3>
-                  <p className="font-bold text-[#802BB1]">${property.price}/mo</p>
+                  <p className="font-bold text-[#802BB1]">₹{property.price}/mo</p>
                 </div>
                 <div className="flex items-center text-slate-400 text-sm mb-2">
                   <MapPin className="w-4 h-4 mr-1 text-slate-500" /> {property.location.city}, {property.location.state}
