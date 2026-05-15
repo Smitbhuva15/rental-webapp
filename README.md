@@ -58,20 +58,19 @@ RentHub is a state-of-the-art property rental platform that seamlessly connects 
 - **Razorpay Payments:** Secure payment gateway integration for monthly rent processing.
 - **Interactive Image Galleries:** Beautiful, high-resolution masonry grid galleries for desktop and swipeable carousels for mobile.
 - **Save to Wishlist:** Users can favorite and save properties for later, persisting to their unique accounts.
-- **Owner Dashboard:** A complete CMS-like experience for landlords to Add, Edit, and Delete their property listings, view bookings, and manage subscriptions.
+- **User Dashboard:** A complete CMS-like experience for landlords to Add, Edit, and Delete their property listings, view bookings, and manage subscriptions.
 - **Fully Responsive:** Layouts gracefully degrade from high-resolution desktop grids to mobile-first accessible components.
 
-<!-- ## 📸 Screenshots
+## 📸 Screenshots
 
 | Browse Properties | Property Details |
 | :---: | :---: |
-| <img src="https://placehold.co/600x400/030711/802BB1?text=Browse+Page" alt="Browse Page" width="100%" /> | <img src="https://placehold.co/600x400/030711/802BB1?text=Gallery+Layout" alt="Property Details" width="100%" /> |
+| <img src="public/browse.png" alt="Browse Page" width="100%" /> | <img src="public/property.png" alt="Property Details" width="100%" /> |
 
 | User Dashboard | Checkout Flow |
 | :---: | :---: |
-| <img src="https://placehold.co/600x400/030711/802BB1?text=Owner+Dashboard" alt="Dashboard" width="100%" /> | <img src="https://placehold.co/600x400/030711/802BB1?text=Payment+Integration" alt="Checkout" width="100%" /> |
+| <img src="public/dashboard.png" alt="Dashboard" width="100%" /> | <img src="public/premium.png" alt="Checkout" width="100%" /> |
 
-*Replace placeholder images with actual high-quality screenshots before production.* -->
 
 ## 🛠 Tech Stack
 
